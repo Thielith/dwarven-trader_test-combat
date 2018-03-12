@@ -6,10 +6,12 @@
 	create table combat (playerID INT, encounterID INT, currentTurn INT);
 */
 
+//CONSTANTS
+//playerID INT, strength INT, aglility INT, currentHP INT, maxHP INT, encounterID INT
+var ID = 0, STR = 1, AGI = 2, CuHP = 3, MxHP = 4, encounter = 5
 
 var socket = io.connect('http://10.0.2.15:33339');
 var r = 0
-//playerID INT, strength INT, aglility INT, currentHP INT, maxHP INT, encounterID INT
 var you = []
 var them = []
 
@@ -19,16 +21,19 @@ function update(who){
 		'execute', who
 	);
 	them.pop()
-	document.getElementById('player').innerHTML = you[3]
-	document.getElementById('enemy').innerHTML = them[3]
+	document.getElementById('player').innerHTML = you[CuHP]
+	document.getElementById('enemy').innerHTML = them[CuHP]
 }
 
-function attack(){
+function attack(me, they){
 	document.getElementById('output').innerHTML = "You clicked the attack button"
-	them[3] -= 1
-	update(them)
-	you[3] -= 1
-	update(you)
+	they[CuHP] -= me[STR]
+	update(they)
+}
+
+function fight(){
+	attack(you, them)
+	attack(them, you)
 }
 
 /*function create(){
