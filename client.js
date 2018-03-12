@@ -13,10 +13,10 @@ var r = 0
 var you = []
 var them = []
 
-function update(){
+function update(who){
 	them.push("update")
 	socket.emit(
-		'execute', them
+		'execute', who
 	);
 	them.pop()
 	document.getElementById('player').innerHTML = you[3]
@@ -26,7 +26,9 @@ function update(){
 function attack(){
 	document.getElementById('output').innerHTML = "You clicked the attack button"
 	them[3] -= 1
-	update()
+	update(them)
+	you[3] -= 1
+	update(you)
 }
 
 /*function create(){
