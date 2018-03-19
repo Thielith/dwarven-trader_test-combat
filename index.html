@@ -5,11 +5,10 @@
 	create table units (playerID INT, strength INT, aglility INT, currentHP INT, maxHP INT, encounterID INT);
 	create table currentStatus (playerID INT, statusID INT);
 	create table combat (playerID INT, encounterID INT, currentTurn INT);
-
+	create table statusList (statusID INT, statusName VARCHAR(16))
 -->
 <html>
     <head>
-		<script src="http://10.0.2.15/Shoot/node_modules/socket.io-client/dist/socket.io.js"></script>
 		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
 		<link rel='stylesheet' href='./index.css' />
 		<link rel='stylesheet' href='./align.css' />
@@ -17,13 +16,26 @@
 
     <body>
 		<div class="container" style="border-style:hidden hidden solid">
-			<div class="container" style="border-style:solid hidden hidden">
-				<p class='button attack' onclick="fight()">Attack</p>
-				<p class='button attack' onclick="create()">Create Guy</p>
-				<p class='button attack' onclick="pull()">Pull</p>
-				<p id="output">asd</p>
+			<div class="container collumS" style="border-style:solid hidden hidden">
 				<p>Player Health: <p id="player">1</p></p>
+				<p class="button stayCenter" id="leftButton" style="display:none" onclick="loadButtons(buttons, 'left')"><</p>
+			</div>
+			
+			<div class="container collumM" style="border-style:solid hidden hidden" id="menu">
+				<p class='button attack stayCenter' onclick="choice(1)">Attack</p>
+				<p class='button attack stayCenter' onclick="choice(2)">Items</p>
+				<p class='button attack stayCenter' onclick="choice(3)">Actions</p>
+				<!--p class='button attack' onclick="create()">Create Guy</p>
+				<p class='button attack' onclick="pull()">Pull</p-->
+			</div>
+			<div class="container collumS" style="border-style:solid hidden hidden">
 				<p>Enemy Health: <p id="enemy">2</p></p>
+				<p class="button stayCenter" id="rightButton" style="display:none" onclick="loadButtons(buttons, 'right')">></p>
+			</div>
+			
+			<div class="container" style="border-style:hidden">
+				<p class="stayCenter" id="advantage">0</p>
+				<p class="stayCenter" id="output">asd</p>
 			</div>
 		</div>
     </body>
