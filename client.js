@@ -17,34 +17,33 @@ var them = [1, 5, 10, 80, 80, 0]
 var advantage = 0
 var x = 0
 var y = 6
-var buttons = [
-		"<p class='button attack center' onclick='loadAttackMenu()'>Back</p>",
-		"<p class='button attack center' onclick='fight()'>Basic Attack</p>",
-		"<p class='button attack center' onclick='fight()'>Attack</p>",
-		"<p class='button attack center' onclick='fight()'>Attack</p>",
-		"<p class='button attack center' onclick='fight()'>Attack</p>",
-		"<p class='button attack center' onclick='fight()'>Attack</p>",
-		"<p class='button attack center' onclick='fight()'>Bttack</p>",
-		"<p class='button attack center' onclick='fight()'>Bttack</p>",
-		"<p class='button attack center' onclick='fight()'>Bttack</p>",
-		"<p class='button attack center' onclick='fight()'>Bttack</p>",
-		"<p class='button attack center' onclick='fight()'>Bttack</p>",
-		"<p class='button attack center' onclick='fight()'>Bttack</p>",
-		"<p class='button attack center' onclick='fight()'>Cttack</p>",
-		"<p class='button attack center' onclick='fight()'>Cttack</p>",
-		"<p class='button attack center' onclick='fight()'>Cttack</p>",
-		"<p class='button attack center' onclick='fight()'>Cttack</p>",
-		"<p class='button attack center' onclick='fight()'>Cttack</p>",
-		"<p class='button attack center' onclick='fight()'>Cttack</p>",
-		"<p class='button attack center' onclick='fight()'>Dttack</p>",
-		"<p class='button attack center' onclick='fight()'>Dttack</p>",
-		"<p class='button attack center' onclick='fight()'>Dttack</p>",
-		"<p class='button attack center' onclick='fight()'>Dttack</p>",
-		"<p class='button attack center' onclick='fight()'>Dttack</p>",
-		"<p class='button attack center' onclick='fight()'>Dttack</p>",
-		"<p class='button attack center' onclick='fight()'>o/</p>",
-		]
-
+var attackButtons = [
+	"<p class='button attack center' onclick='loadAttackMenu()'>Back</p>",
+	"<p class='button attack center' onclick='fight()'>Basic Attack</p>",
+	"<p class='button attack center' onclick='fight()'>Attack</p>",
+	"<p class='button attack center' onclick='fight()'>Attack</p>",
+	"<p class='button attack center' onclick='fight()'>Attack</p>",
+	"<p class='button attack center' onclick='fight()'>Attack</p>",
+	"<p class='button attack center' onclick='fight()'>Bttack</p>",
+	"<p class='button attack center' onclick='fight()'>Bttack</p>",
+	"<p class='button attack center' onclick='fight()'>Bttack</p>",
+	"<p class='button attack center' onclick='fight()'>Bttack</p>",
+	"<p class='button attack center' onclick='fight()'>Bttack</p>",
+	"<p class='button attack center' onclick='fight()'>Bttack</p>",
+	"<p class='button attack center' onclick='fight()'>Cttack</p>",
+	"<p class='button attack center' onclick='fight()'>Cttack</p>",
+	"<p class='button attack center' onclick='fight()'>Cttack</p>",
+	"<p class='button attack center' onclick='fight()'>Cttack</p>",
+	"<p class='button attack center' onclick='fight()'>Cttack</p>",
+	"<p class='button attack center' onclick='fight()'>Cttack</p>",
+	"<p class='button attack center' onclick='fight()'>Dttack</p>",
+	"<p class='button attack center' onclick='fight()'>Dttack</p>",
+	"<p class='button attack center' onclick='fight()'>Dttack</p>",
+	"<p class='button attack center' onclick='fight()'>Dttack</p>",
+	"<p class='button attack center' onclick='fight()'>Dttack</p>",
+	"<p class='button attack center' onclick='fight()'>Dttack</p>",
+	"<p class='button attack center' onclick='fight()'>o/</p>",
+]
 
 function update(who){
 	them.push("update")
@@ -76,13 +75,16 @@ function AI(state){
 	if(aiChoice == 1){
 		aiChoice = 1 //will be more eventually
 		if(aiChoice == 1){
-			if(state == 1){
-				advantage += 2
-			}
-			else{
+			if(state == "attack" || state == "tripped"){
 				attack(them, you)
 			}
-			updateDisplay()
+			else if(state == "defend"){
+				advantage += 2
+			}
+			else if(state == "counter"){
+				attack(you, them)
+			}
+			
 		}
 	}
 	else if(aiChoice == 2){
@@ -91,7 +93,7 @@ function AI(state){
 		document.getElementById('output').innerHTML = "they chose items"
 	}
 	else if(aiChoice == 3){
-		aiChoice = Math.floor((Math.random() * 1) + 1);
+		aiChoice = Math.floor((Math.random() * 3) + 1);
 		
 		if(aiChoice == 1){
 			//run
@@ -102,17 +104,36 @@ function AI(state){
 			}
 			else{
 				document.getElementById('output').innerHTML = "they tripped"
+				advantage += 2
 			}
 		}
 		else if(aiChoice == 2){
 			//defend
 			console.log("defend")
 			document.getElementById('output').innerHTML = "they defend"
+			if(state == "attack"){
+				advantage -= 2
+			}
+			else if(state == "defend"){
+				document.getElementById('output').innerHTML = "you both defend"
+			}
+			else if(state == "counter"){
+				advantage -= 1
+			}
 		}
 		else if(aiChoice == 3){
 			//counter
 			console.log("counter")
 			document.getElementById('output').innerHTML = "they counter"
+			if(state == "attack"){
+				attack(them, you)
+			}
+			else if(state == "defend"){
+				advantage += 1
+			}
+			else if(state == "counter"){
+				document.getElementById('output').innerHTML = "you both counter"
+			}
 		}
 	}
 }
@@ -141,27 +162,29 @@ function loadButtons(list, direction){
 }
 function choice(pick){
 	if(pick == 1){
+		
+		
 		document.getElementById('output').innerHTML = "You clicked the attack button"
-		if(buttons.length > 6){
+		if(attackButtons.length > 6){
 			document.getElementById('rightButton').style.display = "inline"
-			loadButtons(buttons, "rights")
+			loadButtons(attackButtons, "rights")
 		}
 		else{
-			document.getElementById('menu').innerHTML = buttons
+			document.getElementById('menu').innerHTML = attackButtons
 		}
 	}
 	else if(pick == 2){
 		//when items are implemented
 	}
 	else if(pick == 3){
-		buttons = [
+		actionButtons = [
 		"<p class='button attack center' onclick='loadAttackMenu()'>Back</p>",
 		"<p class='button attack center' onclick='actions(1)'>Run</p>",
 		"<p class='button attack center' onclick='actions(2)'>Defend</p>",
 		"<p class='button attack center' onclick='actions(3)'>Counter</p>"
 		]
 		document.getElementById('output').innerHTML = "You clicked the actions button"
-		document.getElementById('menu').innerHTML = buttons
+		document.getElementById('menu').innerHTML = actionButtons
 	}
 	
 }
@@ -170,21 +193,27 @@ function actions(choice){
 		number = Math.floor((Math.random() * 100) + 1);
 		if(number < 75){
 				document.getElementById('menu').innerHTML = "<p class='stayCenter'>You ran away and left all of your stuff behind</p>"
+				exit()
 			}
 			else{
 				document.getElementById('output').innerHTML = "You tripped"
 				loadAttackMenu()
+				AI("tripped")
 			}
 	}
 	else if(choice == 2){
 		document.getElementById('output').innerHTML = "You defend"
-		AI(1)
-		updateDisplay()
+		AI("defend")
 	}
+	else if(choice == 3){
+		document.getElementById('output').innerHTML = "You counter"
+		AI("counter")
+	}
+	updateDisplay()
 }
 function fight(){
 	attack(you, them)
-	AI()
+	AI("attack")
 	if(them[CuHP] > 0){
 		updateDisplay()
 	}
