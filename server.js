@@ -4,6 +4,10 @@
 	create table units (playerID INT, strength INT, aglility INT, currentHP INT, maxHP INT, encounterID INT);
 	create table currentStatus (playerID INT, statusID INT);
 	create table combat (playerID INT, encounterID INT, currentTurn INT);
+	create table statusList (statusID INT, statusName VARCHAR(16));
+	create table attacks (level INT, advantage INT, advantageCost INT, attackID INT, typeID INT, effectGive INT, effectGet INT, effectClear INT);
+	create table attackTypes (typeID INT, typeName INT);
+	create table attackList (attackID INT, attackName VARCHAR(16));
 */
 var mysql = require('mysql'); 
 var io = require('socket.io').listen(33339);
