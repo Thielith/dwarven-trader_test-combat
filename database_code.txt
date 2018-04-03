@@ -2,23 +2,26 @@ Code for creating tables:
 	create database test_dwarven;
 	
 	create table units (playerID INT, strength INT, aglility INT, currentHP INT, maxHP INT, encounterID INT, level INT);
-	insert into units (playerID, strength, aglility, currentHP, maxHP, encounterID) values (0, 5, 10, 80, 80, 0, 1)
-	insert into units (playerID, strength, aglility, currentHP, maxHP, encounterID) values (1, 5, 10, 80, 80, 0, 1)
+	insert into units (playerID, strength, aglility, currentHP, maxHP, encounterID, level) values (0, 5, 10, 80, 80, 0, 1);
+	insert into units (playerID, strength, aglility, currentHP, maxHP, encounterID, level) values (1, 5, 10, 80, 80, 0, 1);
 
 	create table currentStatus (playerID INT, statusID INT);
+	
 	create table combat (playerID INT, encounterID INT, currentTurn INT);
+	insert into combat (playerID, encounterID, currentTurn) values (0, 0, 0);
+	insert into combat (playerID, encounterID, currentTurn) values (1, 0, 0);
 
 	create table statusList (statusID INT, statusName VARCHAR(16));
-	insert into statusList (statusID, statusName) values (0, "Fell")
-	insert into statusList (statusID, statusName) values (1, "Crouch")
+	insert into statusList (statusID, statusName) values (0, "Fell");
+	insert into statusList (statusID, statusName) values (1, "Crouch");
 
 	create table attacks (level INT, advantage INT, advantageCost INT, attackID INT, typeID INT, effectGive INT, effectGet INT, effectClear INT);
 	insert into attacks (level, advantage, advantageCost, attackID, typeID, effectGive, effectGet, effectClear) values (1, 1, 1, 0, 0, 0, 1, -1);
 
 	create table attackTypes (typeID INT, typeName INT);
-	insert into attackType (typeID, typeName) values (0, "Melee")
-	insert into attackType (typeID, typeName) values (1, "Ranged")
-	insert into attackType (typeID, typeName) values (2, "Magic")
+	insert into attackType (typeID, typeName) values (0, "Melee");
+	insert into attackType (typeID, typeName) values (1, "Ranged");
+	insert into attackType (typeID, typeName) values (2, "Magic");
 
 	create table attackList (attackID INT, attackName VARCHAR(16));
-	insert into attackList (attackID, attackName) values (0, "Kick")
+	insert into attackList (attackID, attackName) values (0, "Kick");
