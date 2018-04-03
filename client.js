@@ -1,18 +1,3 @@
-/*
-	Code for creating tables:
-	create database test_dwarven;
-	create table units (playerID INT, strength INT, aglility INT, currentHP INT, maxHP INT, encounterID INT);
-	create table currentStatus (playerID INT, statusID INT);
-	create table combat (playerID INT, encounterID INT, currentTurn INT);
-	create table statusList (statusID INT, statusName VARCHAR(16));
-	create table attacks (level INT, advantage INT, advantageCost INT, attackID INT, typeID INT, effectGive INT, effectGet INT, effectClear INT);
-	create table attackTypes (typeID INT, typeName INT);
-	create table attackList (attackID INT, attackName VARCHAR(16));
-	
-	(level, advantage, advantageCost, attackID, typeID, effectGive, effectGet, effectClear);
-	  1         1            1           0         0         0          1           -1
-*/
-
 //CONSTANTS
 //playerID INT, strength INT, aglility INT, currentHP INT, maxHP INT, encounterID INT, level INT
 var ID = 0, STR = 1, AGI = 2, CuHP = 3, MxHP = 4, encounter = 5
