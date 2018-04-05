@@ -19,9 +19,23 @@ Code for creating tables:
 	insert into attacks (level, advantage, advantageCost, attackID, typeID, effectGive, effectGet, effectClear) values (1, 1, 1, 0, 0, 0, 1, -1);
 
 	create table attackTypes (typeID INT, typeName INT);
-	insert into attackType (typeID, typeName) values (0, "Melee");
-	insert into attackType (typeID, typeName) values (1, "Ranged");
-	insert into attackType (typeID, typeName) values (2, "Magic");
+	insert into attackTypes (typeID, typeName) values (0, "Melee");
+	insert into attackTypes (typeID, typeName) values (1, "Ranged");
+	insert into attackTypes (typeID, typeName) values (2, "Magic");
 
 	create table attackList (attackID INT, attackName VARCHAR(16));
 	insert into attackList (attackID, attackName) values (0, "Kick");
+
+	create table nameEnum (nameID INT, name VARCHAR(16));
+
+	create table classEnum (classID INT, className VARCHAR(16));
+	
+	create table qualityEnum (qualityID INT, qualityName VARCHAR(16));
+
+	create table ITEM (nameID INT, qualityID INT, basePrice INT);
+	
+	create table RECIPE (itemA INT, quantityA INT, itemB INT, quantityB INT, itemC INT, quantityC INT, itemD INT, quantityD INT, toolA INT, toolB INT, time INT, resultA INT, resultB INT, resultC INT, resultD INT)
+	
+	create table recipes (ownerID INT, timesUsed INT, recipeID INT);
+
+	create table items (ownerID INT, quantity INT, classID INT, qualityID INT)
