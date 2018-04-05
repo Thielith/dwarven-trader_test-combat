@@ -32,10 +32,10 @@ Code for creating tables:
 	
 	create table qualityEnum (qualityID INT, qualityName VARCHAR(16));
 
-	create table ITEM (nameID INT, qualityID INT, basePrice INT);
+	create table ITEM (itemID AUTO_INCREMENT, nameID INT, qualityID INT, basePrice INT);
 	
-	create table RECIPE (itemA INT, quantityA INT, itemB INT, quantityB INT, itemC INT, quantityC INT, itemD INT, quantityD INT, toolA INT, toolB INT, time INT, resultA INT, resultB INT, resultC INT, resultD INT)
+	create table RECIPE (recipeID INT AUTO_INCREMENT, itemA INT, quantityA INT, itemB INT, quantityB INT, itemC INT, quantityC INT, itemD INT, quantityD INT, toolA INT, toolB INT, time INT, resultA INT, resultB INT, resultC INT, resultD INT)
 	
 	create table recipes (ownerID INT, timesUsed INT, recipeID INT);
 
-	create table items (ownerID INT, quantity INT, classID INT, qualityID INT)
+	create table items (ownerID INT, quantity INT, classID INT, qualityID INT);
