@@ -1,40 +1,40 @@
 Code for creating tables:
 	create database test_dwarven;
 	
-	create table units (playerID INT, strength INT, aglility INT, currentHP INT, maxHP INT, encounterID INT, level INT);
-	insert into units (playerID, strength, aglility, currentHP, maxHP, encounterID, level) values (0, 5, 10, 80, 80, 0, 1);
-	insert into units (playerID, strength, aglility, currentHP, maxHP, encounterID, level) values (1, 5, 10, 80, 80, 0, 1);
+	create table units (id INT NOT NULL, strength INT, aglility INT, currentHP INT, maxHP INT, encounterID INT, level INT, PRIMARY KEY (id);
+	insert into units (unitID, strength, aglility, currentHP, maxHP, encounterID, level) values (0, 5, 10, 80, 80, 0, 1);
+	insert into units (unitID, strength, aglility, currentHP, maxHP, encounterID, level) values (1, 5, 10, 80, 80, 0, 1);
 
-	create table currentStatus (playerID INT, statusID INT);
+	create table statuses (unitID INT, statusID INT);
 	
-	create table combat (playerID INT, encounterID INT, currentTurn INT);
-	insert into combat (playerID, encounterID, currentTurn) values (0, 0, 0);
-	insert into combat (playerID, encounterID, currentTurn) values (1, 0, 0);
+	create table combat_encounters (id INT, playerID INT, currentTurn INT, PRIMARY KEY (id));
+	insert into combat (id, playerID, currentTurn) values (0, 0, 0);
+	insert into combat (id, playerID, currentTurn) values (0, 1, 0);
 
-	create table statusList (statusID INT, statusName VARCHAR(16));
-	insert into statusList (statusID, statusName) values (0, "Fell");
-	insert into statusList (statusID, statusName) values (1, "Crouch");
+	create table status_e (id INT, statusName VARCHAR(16),PRIMARY KEY (id));
+	insert into status_e (id, statusName) values (0, "Fell");
+	insert into status_e (id, statusName) values (1, "Crouch");
 
-	create table attacks (level INT, advantage INT, advantageCost INT, attackID INT, typeID INT, effectGive INT, effectGet INT, effectClear INT);
+	create table _attack_ (id INT, level INT, advantage INT, advantageCost INT, attackID INT, typeID INT, effectGive INT, effectGet INT, effectClear INT, PRIMARY KEY (id));
 	insert into attacks (level, advantage, advantageCost, attackID, typeID, effectGive, effectGet, effectClear) values (1, 1, 1, 0, 0, 0, 1, -1);
 
-	create table attackTypes (typeID INT, typeName INT);
-	insert into attackTypes (typeID, typeName) values (0, "Melee");
-	insert into attackTypes (typeID, typeName) values (1, "Ranged");
-	insert into attackTypes (typeID, typeName) values (2, "Magic");
+	create table combat_style_e (id INT, styleName INT, PRIMARY KEY (id));
+	insert into combat_style_e (id, styleName) values (0, "Melee");
+	insert into combat_style_e (id, styleName) values (1, "Ranged");
+	insert into combat_style_e (id, styleName) values (2, "Magic");
 
-	create table attackList (attackID INT, attackName VARCHAR(16));
-	insert into attackList (attackID, attackName) values (0, "Kick");
+	create table attack_e (attackID INT, attackName VARCHAR(16));
+	insert into attack_e (attackID, attackName) values (0, "Kick");
 
-	create table nameEnum (nameID INT, name VARCHAR(16));
+	create table item_e (nameID INT, name VARCHAR(16));
 
-	create table classEnum (classID INT, className VARCHAR(16));
+	create table commodity_e (classID INT, className VARCHAR(16));
 	
-	create table qualityEnum (qualityID INT, qualityName VARCHAR(16));
+	create table quality_e (id INT, qualityName VARCHAR(16), PRIMARY KEY (id));
 
-	create table ITEM (itemID AUTO_INCREMENT, nameID INT, qualityID INT, basePrice INT);
+	create table _item_ (id INT, nameID INT, qualityID INT, commodity INT, basePrice INT, PRIMARY KEY (id));
 	
-	create table RECIPE (recipeID INT AUTO_INCREMENT, itemA INT, quantityA INT, itemB INT, quantityB INT, itemC INT, quantityC INT, itemD INT, quantityD INT, toolA INT, toolB INT, time INT, resultA INT, resultB INT, resultC INT, resultD INT)
+	create table _recipe_ (id INT, itemA INT, quantityA INT, itemB INT, quantityB INT, itemC INT, quantityC INT, itemD INT, quantityD INT, toolA INT, toolB INT, time INT, resultA INT, resultB INT, resultC INT, resultD INT, PRIMARY KEY(id));
 	
 	create table recipes (ownerID INT, timesUsed INT, recipeID INT);
 
