@@ -51,7 +51,7 @@ def updateUnitsDB(connection,id):
 
 if sys.argv[2] == "insert":
 	print("adding data")
-	addToCombatDB(cur,sys.argv[1])
+	insertUnitsDB(cur,sys.argv[1])
 	print("commit update")
 	db.commit();
 	print("close")
@@ -59,7 +59,7 @@ if sys.argv[2] == "insert":
 	
 elif sys.argv[2] == "update":
 	print("updating unit data")
-	updateCombatDB(cur,sys.argv[1])
+	updateUnitsDB(cur,sys.argv[1])
 	print("commit update")
 	db.commit();
 	print("close")

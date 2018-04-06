@@ -25,23 +25,33 @@ function update(who){
 	updateDisplay()
 }
 function updateDisplay(start){
-	loadAttackMenu()
-	document.getElementById('player').innerHTML = you.CuHP + " / " + you.MxHP
-	if(start != undefined){
-		for(r = 0; r < them.length; r++){
-			ra = r + 1
-			var t = document.getElementById('enemy').innerHTML =
-				document.getElementById('enemy').innerHTML
-				+ "<p id='enemy" + r + "'>" + them[r].name + ": " + them[r].CuHP + " / " + them[r].MxHP + "</p>";
+	if(totalHP > 0){
+		loadAttackMenu()
+		document.getElementById('player').innerHTML = you.CuHP + " / " + you.MxHP
+		if(start != undefined){
+			for(r = 0; r < them.length; r++){
+				ra = r + 1
+				var t = document.getElementById('enemy').innerHTML =
+					document.getElementById('enemy').innerHTML
+					+ "<p id='enemy" + r + "'>" + them[r].name + ": " + them[r].CuHP + " / " + them[r].MxHP + "</p>";
+			}
 		}
+		else{
+			for(r = 0; r < them.length; r++){
+				document.getElementById('enemy' + r).innerHTML = them[r].name + ": " + them[r].CuHP + " / " + them[r].MxHP
+			}
+		}
+		
+		document.getElementById('advantage').innerHTML = advantage
+	}
+	else if(you.CuHP < 0){
+		document.getElementById('menu').innerHTML = "<p class='stayCenter'>You Lose!</p>"
 	}
 	else{
-		for(r = 0; r < them.length; r++){
-			document.getElementById('enemy' + r).innerHTML = them[r].name + ": " + them[r].CuHP + " / " + them[r].MxHP
-		}
+		document.getElementById('menu').innerHTML = "<p class='stayCenter'>You Win!</p>"
 	}
 	
-	document.getElementById('advantage').innerHTML = advantage
+	
 }
 function loadAttackMenu(){
 	var mainButtons = [
@@ -209,17 +219,16 @@ function fight(choice){
 	var totalHP = 0
 	attack(you, them[choice])
 	for(rz = 0; rz < them.length; rz++){
+		if(them[rz].CuHP < 0){
+			them[rz].STR = 0
+			them[rz].CuHP = 0
+			attackChoiceButtons[rz + 1] = ""
+		}
 		AI("attack", rz)
 		console.log(rz)
 		totalHP += them[rz].CuHP
 	}
-	
-	if(totalHP > 0){
-		updateDisplay()
-	}
-	else{
-		document.getElementById('menu').innerHTML = "<p class='stayCenter'>You Win!</p>"
-	}
+	updateDisplay(undefined, totalHP)
 }
 function attack(a, b){
 	b.CuHP -= a.STR
@@ -261,4 +270,4 @@ function pull(){
     them.push(data[1].encounterID)
 })*/
 
-updateDisplay('asd')
+updateDisplay('asd', 9999)
