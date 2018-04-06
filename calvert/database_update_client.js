@@ -1,4 +1,4 @@
-var socket = io.connect('http://10.0.2.15:33339');
+var socket = io.connect('http://localhost');
 var r = 0
 function update(which){
 	var send = r + " " + which
