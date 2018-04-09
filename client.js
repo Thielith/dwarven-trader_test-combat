@@ -148,6 +148,7 @@ function AI(state, which){
 }
 
 function loadButtons(list, direction){
+	document.getElementById('rightButton').style.display = "inline"
 	if(direction == "left"){
 		x -= 6
 		y -= 6
@@ -236,7 +237,6 @@ function actions(choice){
 }
 function fightChoose(){
 	currentList = attackChoiceButtons
-	document.getElementById('rightButton').style.display = "inline"
 	loadButtons(attackChoiceButtons, "rights")
 }
 
