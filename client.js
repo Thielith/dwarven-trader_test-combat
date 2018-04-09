@@ -1,18 +1,26 @@
-//CONSTANTS
-//playerID INT, strength INT, aglility INT, currentHP INT, maxHP INT, encounterID INT, level INT
-var ID = 0, STR = 1, AGI = 2, CuHP = 3, MxHP = 4, encounter = 5
-
-
 //var socket = io.connect('http://10.0.2.15:33339');
-var you = [0, 5, 10, 80, 80, 1, 1]
-var them = [1, 5, 10, 80, 80, 1, 1]
+var you = {playerID: 0, STR: 5, AGI: 10, CuHP: 80, MxHP: 80, encounter: 1, lvl: 1}
+var them = [
+			{playerID: 1, STR: 5, AGI: 10, CuHP: 80, MxHP: 80, encounter: 1, lvl: 1, name: "Joe"}, 
+			{playerID: 2, STR: 5, AGI: 10, CuHP: 80, MxHP: 80, encounter: 1, lvl: 1, name: "Shmoe"}, 
+			{playerID: 1, STR: 5, AGI: 10, CuHP: 80, MxHP: 80, encounter: 1, lvl: 1, name: "Joe"}, 
+			{playerID: 1, STR: 5, AGI: 10, CuHP: 80, MxHP: 80, encounter: 1, lvl: 1, name: "Joe"}, 
+			]
 var advantage = 0
 var x = 0
 var y = 6
 var attackButtons = [
 	"<p class='button attack center' onclick='loadAttackMenu()'>Back</p>",
-	"<p class='button attack center' onclick='fight()'>Punch</p>",
+	"<p class='button attack center' onclick='fightChoose()'>Punch</p>", 
 ]
+var attackChoiceButtons = [
+	"<p class='button attack center' onclick='loadAttackMenu()'>Back</p>"
+]
+var currentList = attackButtons
+for(r = 0; r < them.length; r++){
+	var acString = "<p class='button attack center' onclick='fight(" + r + ")'>" + them[r].name + "</p>"
+	attackChoiceButtons.push(acString)
+}
 
 function update(who){
 	them.push("update")
@@ -22,36 +30,68 @@ function update(who){
 	them.pop()
 	updateDisplay()
 }
-function updateDisplay(){
-	loadAttackMenu()
-	document.getElementById('player').innerHTML = you[CuHP]
-	document.getElementById('enemy').innerHTML = them[CuHP]
-	document.getElementById('advantage').innerHTML = advantage
+function updateDisplay(start, totalHP){
+	if(totalHP > 0 && you.CuHP > 0){
+		loadAttackMenu()
+		document.getElementById('player').innerHTML = you.CuHP + " / " + you.MxHP
+		if(start != undefined){
+			for(r = 0; r < them.length; r++){
+				ra = r + 1
+				var t = document.getElementById('enemy').innerHTML =
+					document.getElementById('enemy').innerHTML
+					+ "<p id='enemy" + r + "'>" + them[r].name + ": " + them[r].CuHP + " / " + them[r].MxHP + "</p>";
+			}
+		}
+		else{
+			for(r = 0; r < them.length; r++){
+				document.getElementById('enemy' + r).innerHTML = them[r].name + ": " + them[r].CuHP + " / " + them[r].MxHP
+			}
+		}
+		
+		document.getElementById('advantage').innerHTML = advantage
+	}
+	else if(you.CuHP <= 0){
+		document.getElementById('menu').innerHTML = "<p class='stayCenter'>You Lose!</p>"
+		document.getElementById('player').innerHTML = "0 / " + you.MxHP
+	}
+	else{
+		document.getElementById('menu').innerHTML = "<p class='stayCenter'>You Win!</p>"
+		for(r = 0; r < them.length; r++){
+			document.getElementById('enemy' + r).innerHTML = them[r].CuHP + " / " + them[r].MxHP
+		}
+	}
+	
+	
 }
 function loadAttackMenu(){
 	var mainButtons = [
-		"<p class='button attack center' onclick='choice(1)'>Attack</p>",
-		"<p class='button attack center' onclick='choice(2)'>Items</p>",
+		"<p class='button attack center' onclick='choice(1)'>Attack</p>", 
+		"<p class='button attack center' onclick='choice(2)'>Items</p>", 
 		"<p class='button attack center' onclick='choice(3)'>Actions</p>"
 	]
-	document.getElementById('menu').innerHTML = mainButtons
+	document.getElementById('menu').innerHTML = mainButtons[0]
+	for(rz = 1; rz < mainButtons.length; rz++){
+		var t = document.getElementById('menu').innerHTML =
+			document.getElementById('menu').innerHTML
+			+ mainButtons[rz]
+	}
 	document.getElementById('rightButton').style.display = "none"
 	document.getElementById('leftButton').style.display = "none"
 }
 
-function AI(state){
+function AI(state, which){
 	var aiChoice = Math.floor((Math.random() * 3) + 1);
 	if(aiChoice == 1){
 		aiChoice = 1 //will be more eventually
 		if(aiChoice == 1){
 			if(state == "attack" || state == "tripped"){
-				attack(them, you)
+				attack(them[which], you)
 			}
 			else if(state == "defend"){
 				advantage += 2
 			}
 			else if(state == "counter"){
-				attack(you, them)
+				attack(you, them[which])
 			}
 			
 		}
@@ -95,7 +135,7 @@ function AI(state){
 			console.log("counter")
 			document.getElementById('output').innerHTML = "they counter"
 			if(state == "attack"){
-				attack(them, you)
+				attack(them[which], you)
 			}
 			else if(state == "defend"){
 				advantage += 1
@@ -119,7 +159,12 @@ function loadButtons(list, direction){
 		document.getElementById('leftButton').style.display = "inline"
 	}
 	currentButtons = list.slice(x, y)
-	document.getElementById('menu').innerHTML = currentButtons
+	document.getElementById('menu').innerHTML = currentButtons[0]
+	for(rz = 1; rz < currentButtons.length; rz++){
+		var t = document.getElementById('menu').innerHTML =
+			document.getElementById('menu').innerHTML
+			+ currentButtons[rz]
+	}
 	
 	if(x <= 0){
 		document.getElementById('leftButton').style.display = "none"
@@ -131,15 +176,18 @@ function loadButtons(list, direction){
 }
 function choice(pick){
 	if(pick == 1){
-		
-		
 		document.getElementById('output').innerHTML = "You clicked the attack button"
 		if(attackButtons.length > 6){
 			document.getElementById('rightButton').style.display = "inline"
 			loadButtons(attackButtons, "rights")
 		}
 		else{
-			document.getElementById('menu').innerHTML = attackButtons
+			document.getElementById('menu').innerHTML = attackButtons[0]
+			for(rz = 1; rz < attackButtons.length; rz++){
+				var t = document.getElementById('menu').innerHTML =
+					document.getElementById('menu').innerHTML
+					+ attackButtons[rz]
+			}
 		}
 	}
 	else if(pick == 2){
@@ -167,31 +215,47 @@ function actions(choice){
 			else{
 				document.getElementById('output').innerHTML = "You tripped"
 				loadAttackMenu()
-				AI("tripped")
+				for(r = 0; r < them.length; r++){
+					AI("tripped", r)
+				}
 			}
 	}
 	else if(choice == 2){
 		document.getElementById('output').innerHTML = "You defend"
-		AI("defend")
+		for(r = 0; r < them.length; r++){
+			AI("defend", r)
+		}
 	}
 	else if(choice == 3){
 		document.getElementById('output').innerHTML = "You counter"
-		AI("counter")
+		for(r = 0; r < them.length; r++){
+			AI("counter", r)
+		}
 	}
 	updateDisplay()
 }
-function fight(){
-	attack(you, them)
-	AI("attack")
-	if(them[CuHP] > 0){
-		updateDisplay()
+function fightChoose(){
+	currentList = attackChoiceButtons
+	document.getElementById('rightButton').style.display = "inline"
+	loadButtons(attackChoiceButtons, "rights")
+}
+
+function fight(choice){
+	var totalHP = 0
+	attack(you, them[choice])
+	for(rz = 0; rz < them.length; rz++){
+		if(them[rz].CuHP <= 0){
+			them[rz].STR = 0
+			them[rz].CuHP = 0
+			attackChoiceButtons[rz + 1] = ""
+		}
+		AI("attack", rz)
+		totalHP += them[rz].CuHP
 	}
-	else{
-		document.getElementById('menu').innerHTML = "<p class='stayCenter'>You Win!</p>"
-	}
+	updateDisplay(undefined, totalHP)
 }
 function attack(a, b){
-	b[CuHP] -= a[STR]
+	b.CuHP -= a.STR
 	update(b)
 }
 
@@ -230,4 +294,4 @@ function pull(){
     them.push(data[1].encounterID)
 })*/
 
-updateDisplay()
+updateDisplay('asd', 9999)
