@@ -148,7 +148,9 @@ function AI(state, which){
 }
 
 function loadButtons(list, direction){
-	document.getElementById('rightButton').style.display = "inline"
+	if(list.length > 6){
+		document.getElementById('rightButton').style.display = "inline"
+	}
 	if(direction == "left"){
 		x -= 6
 		y -= 6
