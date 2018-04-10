@@ -1,5 +1,5 @@
 var mysql = require('mysql'); 
-var io = require('socket.io').listen(33339);
+var io = require('socket.io').listen(33333);
 const {exec} = require('child_process');
 
 var con = mysql.createConnection({
