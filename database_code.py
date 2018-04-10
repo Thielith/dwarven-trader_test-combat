@@ -7,9 +7,7 @@ db = MySQLdb.connect(host="localhost",  # your host
 				 db="test_dwarven")  # name of the database
 cur = db.cursor()
 
-def execute():
-	cur.execute('create database test_dwarven;')
-	
+def execute():	
 	cur.execute('create table units (id INT NOT NULL, strength INT, aglility INT, currentHP INT, maxHP INT, encounterID INT, level INT, PRIMARY KEY (id);')
 	cur.execute('insert into units (unitID, strength, aglility, currentHP, maxHP, encounterID, level) values (0, 5, 10, 80, 80, 0, 1);')
 	cur.execute('insert into units (unitID, strength, aglility, currentHP, maxHP, encounterID, level) values (1, 5, 10, 80, 80, 0, 1);')
