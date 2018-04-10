@@ -1,4 +1,4 @@
-//var socket = io.connect('http://10.0.2.15:33339');
+//var socket = io.connect('http://192.168.10.206:33333');
 var you = {playerID: 0, STR: 5, AGI: 10, CuHP: 80, MxHP: 80, encounter: 1, lvl: 1}
 var them = [
 			{playerID: 1, STR: 5, AGI: 10, CuHP: 80, MxHP: 80, encounter: 1, lvl: 1, name: "Joe"}, 
