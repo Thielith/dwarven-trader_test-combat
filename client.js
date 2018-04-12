@@ -28,7 +28,7 @@ function update(who){
 		'execute', who
 	);*/
 	them.pop()
-	updateDisplay()
+	updateDisplay(undefined, 9999)
 }
 function updateDisplay(start, totalHP){
 	if(totalHP > 0 && you.CuHP > 0){
@@ -144,6 +144,7 @@ function AI(state, which){
 				document.getElementById('output').innerHTML = "you both counter"
 			}
 		}
+		updateDisplay(undefined, 9999)
 	}
 }
 
@@ -235,7 +236,6 @@ function actions(choice){
 			AI("counter", r)
 		}
 	}
-	updateDisplay()
 }
 function fightChoose(){
 	currentList = attackChoiceButtons
