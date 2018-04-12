@@ -25,17 +25,17 @@ def insertIntoDatabase(connection,tableName,names,values):
 	connection.execute(sqlCommand)
 	print("commit insert")
 	db.commit();
-def updateDatabaseData(connection,tableName,collummNames, values):
-	collummString = ""
-	i = 0
-	for name in collummNames:
-		collummString += " " + name + " = " + str(values[i])
-		collummString += ","
-		i+=1
-	collummString = collummString.strip(',')
-	sqlCommand = "UPDATE " + tableName + " SET" + collummString + " WHERE playerID = " + sys.argv[1] + ";"
-	print(sqlCommand)
-	connection.execute(sqlCommand)
+#def updateDatabaseData(connection,tableName,collummNames, values):
+#	collummString = ""
+#	i = 0
+#	for name in collummNames:
+#		collummString += " " + name + " = " + str(values[i])
+#		collummString += ","
+#		i+=1
+#	collummString = collummString.strip(',')
+#	sqlCommand = "UPDATE " + tableName + " SET" + collummString + " WHERE playerID = " + sys.argv[1] + ";"
+#	print(sqlCommand)
+#	connection.execute(sqlCommand)
 
 
 def insertUnitsDB(connection,id):
@@ -43,10 +43,10 @@ def insertUnitsDB(connection,id):
 	values = [id]
 	c = insertIntoDatabase(connection, "units", names, values)
 
-def updateUnitsDB(connection,id):
-	names = ["id"]
-	values = [id]
-	c = updateIntoDatabase(connection, "units", names, values)
+#def updateUnitsDB(connection,id):
+#	names = ["id"]
+#	values = [id]
+#	c = updateIntoDatabase(connection, "units", names, values)
 	
 
 if sys.argv[2] == "insert":
@@ -57,13 +57,13 @@ if sys.argv[2] == "insert":
 	print("close")
 	db.close();
 	
-elif sys.argv[2] == "update":
-	print("updating unit data")
-	updateUnitsDB(cur,sys.argv[1])
-	print("commit update")
-	db.commit();
-	print("close")
-	db.close();
+#elif sys.argv[2] == "update":
+#	print("updating unit data")
+#	updateUnitsDB(cur,sys.argv[1])
+#	print("commit update")
+#	db.commit();
+#	print("close")
+#	db.close();
 
 #x = getDataFromTableByID(cur,"player","player_name","Billy")
 
