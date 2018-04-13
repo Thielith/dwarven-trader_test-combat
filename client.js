@@ -1,5 +1,5 @@
-//var socket = io.connect('http://192.168.10.206:33333');
-var you = {playerID: 0, STR: 5, AGI: 10, CuHP: 80, MxHP: 80, encounter: 1, lvl: 1}
+var socket = io.connect('http://192.168.10.206:33333');
+var you = {playerID: 0, STR: undefined, AGI: undefined, CuHP: undefined, MxHP: undefined, encounter: undefined, lvl: undefined}
 var them = [
 			{playerID: 1, STR: 5, AGI: 10, CuHP: 80, MxHP: 80, encounter: 1, lvl: 1, name: "Joe"}, 
 			{playerID: 2, STR: 5, AGI: 10, CuHP: 80, MxHP: 80, encounter: 1, lvl: 1, name: "Shmoe"}, 
@@ -17,10 +17,18 @@ var attackChoiceButtons = [
 	"<p class='button attack center' onclick='loadAttackMenu()'>Back</p>"
 ]
 var currentList = attackButtons
-for(r = 0; r < them.length; r++){
-	var acString = "<p class='button attack center' onclick='fight(" + r + ")'>" + them[r].name + "</p>"
-	attackChoiceButtons.push(acString)
-}
+
+socket.emit(
+	'getPlayerData', you.playerID
+);
+socket.on('getPlayerData', function(data){
+	console.log(data)
+	for(r = 0; r < them.length; r++){
+		var acString = "<p class='button attack center' onclick='fight(" + r + ")'>" + them[r].name + "</p>"
+		attackChoiceButtons.push(acString)
+	}
+})
+
 
 function update(who){
 	them.push("update")
