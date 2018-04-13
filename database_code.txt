@@ -18,7 +18,7 @@ Code for creating tables:
 	create table _attack_ (id INT, level INT, advantage INT, advantageCost INT, attackID INT, typeID INT, effectGive INT, effectGet INT, effectClear INT, PRIMARY KEY (id));
 	insert into _attack_ (id, level, advantage, advantageCost, attackID, typeID, effectGive, effectGet, effectClear) values (0, 1, 1, 1, 0, 0, 0, 1, -1);
 
-	create table combat_style_e (id INT, styleName INT, PRIMARY KEY (id));
+	create table combat_style_e (id INT, styleName VARCHAR(16), PRIMARY KEY (id));
 	insert into combat_style_e (id, styleName) values (0, "Melee");
 	insert into combat_style_e (id, styleName) values (1, "Ranged");
 	insert into combat_style_e (id, styleName) values (2, "Magic");

@@ -5,7 +5,7 @@ const {exec} = require('child_process');
 var con = mysql.createConnection({
 	host: "localhost",
 	user: "root",
-	password: "asdf",
+	password: "p2950",
 	database: "test_dwarven"
 })
 
