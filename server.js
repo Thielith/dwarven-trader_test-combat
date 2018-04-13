@@ -14,6 +14,18 @@ io.sockets.on('connection', function (socket) {
 	var clientIp = socket.request.connection.remoteAddress;
 	console.log("Someone From " + clientIp + " Connected")
 	
+	socket.on('getPlayerData', function(id){
+		var sql = "SELECT * FROM units WHERE id = " + id + ";"
+		con.query(sql, function(err, result){
+			if (err) throw err;
+			console.log(result)
+			
+			socket.emit(
+				'getPlayerData', result
+			);
+		})
+	})
+	
 	socket.on('pull', function(id){
 		var sendLine = []
 		var sql = "SELECT * FROM units WHERE encounterID = " + id + ";"

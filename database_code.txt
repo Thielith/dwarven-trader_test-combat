@@ -1,22 +1,22 @@
 Code for creating tables:
 	create database test_dwarven;
 	
-	create table units (id INT NOT NULL, strength INT, aglility INT, currentHP INT, maxHP INT, encounterID INT, level INT, PRIMARY KEY (id);
-	insert into units (unitID, strength, aglility, currentHP, maxHP, encounterID, level) values (0, 5, 10, 80, 80, 0, 1);
-	insert into units (unitID, strength, aglility, currentHP, maxHP, encounterID, level) values (1, 5, 10, 80, 80, 0, 1);
+	create table units (id INT NOT NULL, strength INT, aglility INT, currentHP INT, maxHP INT, encounterID INT, level INT, PRIMARY KEY (id));
+	insert into units (id, strength, aglility, currentHP, maxHP, encounterID, level) values (0, 5, 10, 80, 80, 0, 1);
+	insert into units (id, strength, aglility, currentHP, maxHP, encounterID, level) values (1, 5, 10, 80, 80, 0, 1);
 
 	create table statuses (unitID INT, statusID INT);
 	
 	create table combat_encounters (id INT, playerID INT, currentTurn INT, PRIMARY KEY (id));
-	insert into combat (id, playerID, currentTurn) values (0, 0, 0);
-	insert into combat (id, playerID, currentTurn) values (0, 1, 0);
+	insert into combat_encounters (id, playerID, currentTurn) values (0, 0, 0);
+	insert into combat_encounters (id, playerID, currentTurn) values (1, 0, 0);
 
 	create table status_e (id INT, statusName VARCHAR(16),PRIMARY KEY (id));
 	insert into status_e (id, statusName) values (0, "Fell");
 	insert into status_e (id, statusName) values (1, "Crouch");
 
 	create table _attack_ (id INT, level INT, advantage INT, advantageCost INT, attackID INT, typeID INT, effectGive INT, effectGet INT, effectClear INT, PRIMARY KEY (id));
-	insert into attacks (level, advantage, advantageCost, attackID, typeID, effectGive, effectGet, effectClear) values (1, 1, 1, 0, 0, 0, 1, -1);
+	insert into _attack_ (id, level, advantage, advantageCost, attackID, typeID, effectGive, effectGet, effectClear) values (0, 1, 1, 1, 0, 0, 0, 1, -1);
 
 	create table combat_style_e (id INT, styleName INT, PRIMARY KEY (id));
 	insert into combat_style_e (id, styleName) values (0, "Melee");
