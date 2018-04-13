@@ -14,6 +14,12 @@ io.sockets.on('connection', function (socket) {
 	var clientIp = socket.request.connection.remoteAddress;
 	console.log("Someone From " + clientIp + " Connected")
 	
+	socket.on('calvert', function (info) {
+		var e = 'python database.py ' + info
+		console.log(e)
+		exec(e);
+	});
+	
 	socket.on('getPlayerData', function(id){
 		var sql = "SELECT * FROM units WHERE id = " + id + ";"
 		con.query(sql, function(err, result){
@@ -26,7 +32,7 @@ io.sockets.on('connection', function (socket) {
 		})
 	})
 	
-	socket.on('pull', function(id){
+	socket.on('getInCombat', function(id){
 		var sendLine = []
 		var sql = "SELECT * FROM units WHERE encounterID = " + id + ";"
 		con.query(sql, function(err, result){
@@ -34,7 +40,7 @@ io.sockets.on('connection', function (socket) {
 			console.log(result)
 			
 			socket.emit(
-				'pull', result
+				'getInCombat', result
 			);
 		})
 	})

@@ -23,6 +23,23 @@ socket.emit(
 );
 socket.on('getPlayerData', function(data){
 	console.log(data)
+	player.STR = data.strength
+	player.AGI = data.agility
+	player.CuHP = data.currentHP
+	player.MxHP = data.maxHP
+	player.encounter = data.encounterID
+	player.lvl = data.level
+	
+	socket.emit(
+		'getInCombat', player.encounter
+	);
+})
+socket.on('getInCombat', function(data){
+	for(d = 0; d < data.length; d++){
+		var something = {playerID: undefined, STR: undefined, AGI: undefined, CuHP: undefined, MxHP: undefined, encounter: undefined, lvl: undefined, name: undefined}
+		them.push()
+	}
+	
 	for(r = 0; r < them.length; r++){
 		var acString = "<p class='button attack center' onclick='fight(" + r + ")'>" + them[r].name + "</p>"
 		attackChoiceButtons.push(acString)
