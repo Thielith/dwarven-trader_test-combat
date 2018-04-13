@@ -1,10 +1,16 @@
 import MySQLdb
 import sys
+class dbConnection:
+	db = MySQLdb.connect(host="localhost",  # your host
+						 user="root",  # username
+						 passwd="p2950",  # password
+						 db="test_dwarven")  # name of the database
+	cur = db.cursor()
 
 db = MySQLdb.connect(host="localhost",  # your host
-                     user="root",  # username
-                     passwd="p2950",  # password
-                     db="test_dwarven")  # name of the database
+						 user="root",  # username
+						 passwd="p2950",  # password
+						 db="test_dwarven")  # name of the database
 cur = db.cursor()
 
 def insertIntoDatabase(connection,tableName,names,values):
