@@ -27,6 +27,7 @@ socket.on('getPlayerData', function(data){
 		var acString = "<p class='button attack center' onclick='fight(" + r + ")'>" + them[r].name + "</p>"
 		attackChoiceButtons.push(acString)
 	}
+	updateDisplay('asd', 9999)
 })
 
 
@@ -303,5 +304,3 @@ function pull(){
     them.push(data[1].maxHP)
     them.push(data[1].encounterID)
 })*/
-
-updateDisplay('asd', 9999)
