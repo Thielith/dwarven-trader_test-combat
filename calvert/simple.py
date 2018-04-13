@@ -1,3 +1,3 @@
 from ..database import *
 
-insertIntoDatabase(dbConnection,"Units",['strenght'],[5])
+insertIntoDatabase(dbConnection,"Units",['strength'],[5])
