@@ -36,6 +36,7 @@ socket.on('getPlayerData', function(data){
 	);
 })
 socket.on('getInCombat', function(data){
+	console.log(data)
 	for(d = 0; d < data.length; d++){
 		var something = {playerID: undefined, STR: undefined, AGI: undefined, CuHP: undefined, MxHP: undefined, encounter: undefined, lvl: undefined, name: undefined}
 		something.STR = data[d].strength
