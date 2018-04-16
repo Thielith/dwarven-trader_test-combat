@@ -33,7 +33,6 @@ io.sockets.on('connection', function (socket) {
 	})
 	
 	socket.on('getInCombat', function(id){
-		var sendLine = []
 		var sql = "SELECT * FROM units WHERE encounterID = " + id + ";"
 		con.query(sql, function(err, result){
 			if (err) throw err;
