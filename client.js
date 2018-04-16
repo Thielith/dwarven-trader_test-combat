@@ -296,7 +296,7 @@ function attack(a, b){
 	update(b)
 }
 
-/*function create(){
+/*fuanction create(){
 	r += 1
 	
 	document.getElementById('output').innerHTML = "You clicked the create button"
