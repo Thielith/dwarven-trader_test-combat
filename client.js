@@ -23,13 +23,13 @@ socket.emit(
 );
 socket.on('getPlayerData', function(data){
 	console.log(data)
-	you.STR = data.strength
-	you.AGI = data.agility
-	you.CuHP = data.currentHP
-	you.MxHP = data.maxHP
-	you.encounter = data.encounterID
-	you.lvl = data.level
-	you.name = data.named
+	you.STR = data[0].strength
+	you.AGI = data[0].agility
+	you.CuHP = data[0].currentHP
+	you.MxHP = data[0].maxHP
+	you.encounter = data[0].encounterID
+	you.lvl = data[0].level
+	you.name = data[0].name
 	
 	socket.emit(
 		'getInCombat', you.encounter
