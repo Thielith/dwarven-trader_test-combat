@@ -32,7 +32,7 @@ socket.on('getPlayerData', function(data){
 	you.name = data.named
 	
 	socket.emit(
-		'getInCombat', player.encounter
+		'getInCombat', you.encounter
 	);
 })
 socket.on('getInCombat', function(data){
