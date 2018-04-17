@@ -63,23 +63,23 @@ def getDataFromTableByID(connection, table, idName, id):
 	print(ret)
 	return ret
 	
-
-if sys.argv[7] == "units":
-	print("adding transaction")
-	addToCombatDB(cur,sys.argv[1],sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[5],sys.argv[6])
-	print("commit update")
-	db.commit();
-	print("close")
-	db.close();
-	
-elif sys.argv[7] == "update":
-	print("updating player data")
-	updateCombatDB(cur,sys.argv[1],sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[5],sys.argv[6])
-	print("commit update")
-	db.commit();
-	print("close")
-	db.close();
-
+'''
+	if sys.argv[7] == "units":
+		print("adding transaction")
+		addToCombatDB(cur,sys.argv[1],sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[5],sys.argv[6])
+		print("commit update")
+		db.commit();
+		print("close")
+		db.close();
+		
+	elif sys.argv[7] == "update":
+		print("updating player data")
+		updateCombatDB(cur,sys.argv[1],sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[5],sys.argv[6])
+		print("commit update")
+		db.commit();
+		print("close")
+		db.close();
+'''
 #x = getDataFromTableByID(cur,"player","player_name","Billy")
 
 
