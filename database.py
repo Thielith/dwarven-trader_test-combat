@@ -27,7 +27,6 @@ def insertIntoDatabase(database,tableName,names,values):
 	print(e)
 	print("commit insert")
 	database.commit()
-	database.close()
 
 def updateDatabaseData(connection,tableName,collummNames, values):
 	collummString = ""
@@ -83,4 +82,16 @@ def getDataFromTableByID(connection, table, idName, id):
 '''
 #x = getDataFromTableByID(cur,"player","player_name","Billy")
 
-
+def getAllDataInTable(database, table):
+	connection = database.cursor()
+	sqlCommand = "SELECT * FROM  " + table +";"
+	print(sqlCommand)
+	connection.execute(sqlCommand)
+	
+	values = connection.fetchall();
+	ret = []
+	for v in values:
+		ret.append(v)
+	print(ret)
+	return ret
+	
