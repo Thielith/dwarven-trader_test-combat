@@ -7,7 +7,8 @@ db = MySQLdb.connect(host="localhost",  # your host
 						 db="test_dwarven")  # name of the database
 cur = db.cursor()
 
-def insertIntoDatabase(connection,tableName,names,values):
+def insertIntoDatabase(database,tableName,names,values):
+	connection = database.cursor()
 	insertString = "("
 	valueString = "("
 	i = 0
@@ -25,7 +26,8 @@ def insertIntoDatabase(connection,tableName,names,values):
 	e = connection.execute(sqlCommand)
 	print(e)
 	print("commit insert")
-	db.commit();
+	database.commit()
+	database.close()
 
 def updateDatabaseData(connection,tableName,collummNames, values):
 	collummString = ""
