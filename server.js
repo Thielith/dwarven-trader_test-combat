@@ -14,8 +14,8 @@ io.sockets.on('connection', function (socket) {
 	var clientIp = socket.request.connection.remoteAddress;
 	console.log("Someone From " + clientIp + " Connected")
 	
-	socket.on('calvert', function (info) {
-		var e = 'python simple.py ' + info
+	socket.on('calvert', function () {
+		var e = 'python simple.py'
 		console.log(e)
 		exec(e);
 	});
