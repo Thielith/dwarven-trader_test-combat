@@ -1,11 +1,6 @@
 import MySQLdb
 import sys
-class dbConnection:
-	db = MySQLdb.connect(host="localhost",  # your host
-						 user="root",  # username
-						 passwd="p2950",  # password
-						 db="test_dwarven")  # name of the database
-	cur = db.cursor()
+
 
 db = MySQLdb.connect(host="localhost",  # your host
 						 user="root",  # username
@@ -28,7 +23,8 @@ def insertIntoDatabase(connection,tableName,names,values):
 	valueString += ")"
 	sqlCommand = "INSERT INTO " + tableName + " " + insertString + " VALUES " + valueString + ";"
 	print(sqlCommand)
-	connection.execute(sqlCommand)
+	e = connection.execute(sqlCommand)
+	print(e)
 	print("commit insert")
 	db.commit();
 
