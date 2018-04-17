@@ -39,7 +39,7 @@ io.sockets.on('connection', function (socket) {
 			var send = []
 			console.log(result)
 			for(var d = 0; d < result.length; d++) {
-				if(result[d].playerID != id[1]){
+				if(result[d].id != id[1]){
 					send.push(result[d])
 				}
 			}
