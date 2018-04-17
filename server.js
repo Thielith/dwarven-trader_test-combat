@@ -15,7 +15,7 @@ io.sockets.on('connection', function (socket) {
 	console.log("Someone From " + clientIp + " Connected")
 	
 	socket.on('calvert', function (info) {
-		var e = 'python database.py ' + info
+		var e = 'python simple.py ' + info
 		console.log(e)
 		exec(e);
 	});
@@ -31,19 +31,28 @@ io.sockets.on('connection', function (socket) {
 		})
 	})
 	
+	socket.on('getAttacks', function(level){
+		var sql = "SELECT * FROM _attack_ WHERE level <= " + level + ";"
+		con.query(sql, function(err, result){
+			if (err) throw err;
+			console.log(result)
+			socket.emit(
+				'getPlayerData', result
+			);
+		})
+	})
+	
 	socket.on('getInCombat', function(id){
 		console.log(id)
 		var sql = "SELECT * FROM units WHERE encounterID = " + id[0] + ";"
 		con.query(sql, function(err, result){
 			if (err) throw err;
 			var send = []
-			console.log(result)
 			for(var d = 0; d < result.length; d++) {
 				if(result[d].id != id[1]){
 					send.push(result[d])
 				}
 			}
-			console.log(send)
 			socket.emit(
 				'getInCombat', send
 			);
