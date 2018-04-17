@@ -45,7 +45,7 @@ def updateDatabaseData(connection,tableName,collummNames, values):
 	connection.execute(sqlCommand)
 
 
-def addToCombatDB(connection,playerID, strength, aglility, currentHP, maxHP, encounterID):
+def addToCombatEncountersDB(connection,playerID, strength, aglility, currentHP, maxHP, encounterID):
 	names = ["playerID","strength","agility","currentHP","maxHP","encounterID"]
 	values = [playerID, strength, aglility, currentHP, maxHP, encounterID]
 	c = insertIntoDatabase(connection, "units", names, values)
