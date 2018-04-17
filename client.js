@@ -1,11 +1,6 @@
 var socket = io.connect('http://192.168.10.206:33333');
 var you = {playerID: 0, STR: undefined, AGI: undefined, CuHP: undefined, MxHP: undefined, encounter: undefined, lvl: undefined, name: undefined}
-var them = [
-			{playerID: 1, STR: 5, AGI: 10, CuHP: 80, MxHP: 80, encounter: 1, lvl: 1, name: "Joe"}, 
-			{playerID: 2, STR: 5, AGI: 10, CuHP: 80, MxHP: 80, encounter: 1, lvl: 1, name: "Shmoe"}, 
-			{playerID: 1, STR: 5, AGI: 10, CuHP: 80, MxHP: 80, encounter: 1, lvl: 1, name: "Joe"}, 
-			{playerID: 1, STR: 5, AGI: 10, CuHP: 80, MxHP: 80, encounter: 1, lvl: 1, name: "Joe"}, 
-			]
+var them = []
 var advantage = 0
 var x = 0
 var y = 6
@@ -30,9 +25,9 @@ socket.on('getPlayerData', function(data){
 	you.encounter = data[0].encounterID
 	you.lvl = data[0].level
 	you.name = data[0].name
-	
+	var send = [you.encounter, you.playerID]
 	socket.emit(
-		'getInCombat', you.encounter
+		'getInCombat', send
 	);
 })
 socket.on('getInCombat', function(data){

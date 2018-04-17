@@ -25,7 +25,6 @@ io.sockets.on('connection', function (socket) {
 		con.query(sql, function(err, result){
 			if (err) throw err;
 			console.log(result)
-			
 			socket.emit(
 				'getPlayerData', result
 			);
@@ -34,13 +33,19 @@ io.sockets.on('connection', function (socket) {
 	
 	socket.on('getInCombat', function(id){
 		console.log(id)
-		var sql = "SELECT * FROM units WHERE encounterID = " + id + ";"
+		var sql = "SELECT * FROM units WHERE encounterID = " + id[0] + ";"
 		con.query(sql, function(err, result){
 			if (err) throw err;
+			var send = []
 			console.log(result)
-			
+			for(var d = 0; d < result.length; d++) {
+				if(result[d].playerID != id[1]){
+					send.push(result[d])
+				}
+			}
+			console.log(send)
 			socket.emit(
-				'getInCombat', result
+				'getInCombat', send
 			);
 		})
 	})
