@@ -33,12 +33,28 @@ io.sockets.on('connection', function (socket) {
 	
 	socket.on('getAttacks', function(level){
 		var sql = "SELECT * FROM _attack_ WHERE level <= " + level + ";"
+		var send = []
 		con.query(sql, function(err, result){
 			if (err) throw err;
 			console.log(result)
+			send.push(result)
+			for(var e = 0; e < result.length; e++){
+				var sql1 = "SELECT * FROM attack_e WHERE attackID = " + send[e].attackID + ";"
+				con.query(sql1, function(err1, result1){
+					if (err1) throw err1;
+					console.log(result1)
+					send[e].attackID = result1.attackName
+				})
+				var sql2 = "SELECT * FROM combat_style_e WHERE id = " + send[e].typeID + ";"
+				con.query(sql1, function(err2, result2){
+					if (err2) throw err2;
+					console.log(result2)
+					send[e].typeID = result2.styleName
+				})
+			}
 			socket.emit(
-				'getPlayerData', result
-			);
+				'getAttacks', send
+			)
 		})
 	})
 	

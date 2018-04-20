@@ -47,9 +47,13 @@ socket.on('getInCombat', function(data){
 		var acString = "<p class='button attack center' onclick='fight(" + r + ")'>" + them[r].name + "</p>"
 		attackChoiceButtons.push(acString)
 	}
-	updateDisplay('asd', 9999)
+	socket.emit(
+		'getAttacks', you.lvl
+	)
 })
-
+socket.on('getAttacks', function(data){
+	console.log(data)
+})
 
 function update(who){
 	them.push("update")

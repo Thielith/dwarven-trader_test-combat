@@ -2,8 +2,8 @@ Code for creating tables:
 	create database test_dwarven;
 	
 	create table units (id INT NOT NULL, strength INT, aglility INT, currentHP INT, maxHP INT, encounterID INT, level INT, PRIMARY KEY (id));
-	insert into units (id, strength, aglility, currentHP, maxHP, encounterID, level) values (0, 5, 10, 80, 80, 0, 1);
-	insert into units (id, strength, aglility, currentHP, maxHP, encounterID, level) values (1, 5, 10, 80, 80, 0, 1);
+	insert into units (id, strength, agility, currentHP, maxHP, encounterID, level) values (0, 5, 10, 80, 80, 0, 1);
+	insert into units (id, strength, agility, currentHP, maxHP, encounterID, level) values (1, 5, 10, 80, 80, 0, 1);
 
 	create table statuses (unitID INT, statusID INT);
 	
