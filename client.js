@@ -53,6 +53,7 @@ socket.on('getInCombat', function(data){
 })
 socket.on('getAttacks', function(data){
 	console.log(data)
+	updateDisplay(start, 9999)
 })
 
 function update(who){
