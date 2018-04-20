@@ -21,6 +21,7 @@ io.sockets.on('connection', function (socket) {
 	});
 	
 	socket.on('getPlayerData', function(id){
+		console.log("player")
 		var sql = "SELECT * FROM units WHERE id = " + id + ";"
 		con.query(sql, function(err, result){
 			if (err) throw err;
@@ -32,6 +33,7 @@ io.sockets.on('connection', function (socket) {
 	})
 	
 	socket.on('getAttacks', function(level){
+		console.log("attack")
 		var sql = "SELECT * FROM _attack_ WHERE level <= " + level + ";"
 		var send = []
 		con.query(sql, function(err, result){
@@ -59,7 +61,7 @@ io.sockets.on('connection', function (socket) {
 	})
 	
 	socket.on('getInCombat', function(id){
-		console.log(id)
+		console.log("combat")
 		var sql = "SELECT * FROM units WHERE encounterID = " + id[0] + ";"
 		con.query(sql, function(err, result){
 			if (err) throw err;
