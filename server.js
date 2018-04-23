@@ -53,11 +53,14 @@ io.sockets.on('connection', function (socket) {
 					result[e].typeID = result2.styleName
 				})
 			}
-			console.log("| end result |")
-			console.log(result)
-			socket.emit(
-				'getAttacks', result
-			)
+			setTimeout(function(){
+				console.log("| end result |")
+				console.log(result)
+				socket.emit(
+					'getAttacks', result
+				)
+			}, 500);
+			
 		})
 	})
 	
