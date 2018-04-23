@@ -43,13 +43,13 @@ io.sockets.on('connection', function (socket) {
 				con.query(sql1, function(err1, result1){
 					if (err1) throw err1;
 					console.log(result1)
-					result[e].attackID = result1.attackName
+					result[e].attackID = result1[0].attackName
 				})
 				var sql2 = "SELECT * FROM combat_style_e WHERE id = " + result[e].typeID + ";"
 				con.query(sql1, function(err2, result2){
 					if (err2) throw err2;
 					console.log(result2)
-					result[e].typeID = result2.styleName
+					result[e].typeID = result2[0].styleName
 				})
 			}
 			socket.emit(
