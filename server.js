@@ -41,6 +41,7 @@ io.sockets.on('connection', function (socket) {
 			for(var e = 0; e < result.length; e++){
 				var sql1 = "SELECT * FROM attack_e WHERE attackID = " + result[e].attackID + ";"
 				con.query(sql1, function(err1, result1){
+					e -= 1
 					if (err1) throw err1;
 					console.log(result1)
 					console.log(e)
