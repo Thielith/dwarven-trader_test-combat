@@ -44,14 +44,14 @@ io.sockets.on('connection', function (socket) {
 					if (err1) throw err1;
 					console.log("| attack_e result |")
 					console.log(result1)
-					result[e - 1].attackID = result1.attackName
+					result[e - 1].attackID = result1[0].attackName
 				})
 				var sql2 = "SELECT * FROM combat_style_e WHERE id = " + result[e].typeID + ";"
-				con.query(sql1, function(err2, result2){
+				con.query(sql2, function(err2, result2){
 					if (err2) throw err2;
 					console.log("| combat_style_e result |")
 					console.log(result2)
-					result[e - 1].typeID = result2.styleName
+					result[e - 1].typeID = result2[0].styleName
 				})
 			}
 			setTimeout(function(){
