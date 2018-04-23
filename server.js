@@ -44,8 +44,6 @@ io.sockets.on('connection', function (socket) {
 					e -= 1
 					if (err1) throw err1;
 					console.log(result1)
-					console.log(e)
-					console.log(result[e])
 					result[e].attackID = result1.attackName
 				})
 				var sql2 = "SELECT * FROM combat_style_e WHERE id = " + result[e].typeID + ";"
@@ -55,6 +53,7 @@ io.sockets.on('connection', function (socket) {
 					result[e].typeID = result2.styleName
 				})
 			}
+			console.log(result)
 			socket.emit(
 				'getAttacks', result
 			)

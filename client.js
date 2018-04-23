@@ -286,7 +286,7 @@ function fight(choice){
 			attackChoiceButtons[rz + 1] = ""
 		}
 		AI("attack", rz)
-		totalHP += them[rz].CuHP
+		totalHP += them[rz - 1].CuHP
 	}
 	updateDisplay(undefined, totalHP)
 }
