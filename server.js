@@ -41,16 +41,17 @@ io.sockets.on('connection', function (socket) {
 			for(var e = 0; e < result.length; e++){
 				var sql1 = "SELECT * FROM attack_e WHERE attackID = " + result[e].attackID + ";"
 				con.query(sql1, function(err1, result1){
-					e -= 1
 					if (err1) throw err1;
+					console.log("| attack_e result |")
 					console.log(result1)
-					result[e].attackID = result1.attackName
+					result[e - 1].attackID = result1.attackName
 				})
 				var sql2 = "SELECT * FROM combat_style_e WHERE id = " + result[e].typeID + ";"
 				con.query(sql1, function(err2, result2){
 					if (err2) throw err2;
+					console.log("| combat_style_e result |")
 					console.log(result2)
-					result[e].typeID = result2.styleName
+					result[e - 1].typeID = result2.styleName
 				})
 			}
 			setTimeout(function(){
