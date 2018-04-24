@@ -7,6 +7,16 @@ db = MySQLdb.connect(host="localhost",  # your host
 						 db="test_dwarven")  # name of the database
 cur = db.cursor()
 
+def getFromDatabaseSumOfFieldInTableByGroupWhereXisY(database,field,table,group,x,y):
+	connection = database.cursor()
+	query = "select sum(" +  field + ")  from " + table +  " where " +str(x) +  " = " + str(y) + " group by " + group + ";"
+	print(query)
+	connection.execute(query)
+	values = connection.fetchall()
+	ret = []
+	for v in values:
+		ret.append(v)
+	return ret
 def insertIntoDatabase(database,tableName,names,values):
 	connection = database.cursor()
 	insertString = "("
@@ -60,7 +70,7 @@ def getDataFromTableByID(connection, table, idName, id):
 	ret = []
 	for v in values:
 		ret.append(v)
-	print(ret)
+#	print(ret)
 	return ret
 	
 '''
@@ -92,6 +102,5 @@ def getAllDataInTable(database, table):
 	ret = []
 	for v in values:
 		ret.append(v)
-	print(ret)
+#	print(ret)
 	return ret
-	
