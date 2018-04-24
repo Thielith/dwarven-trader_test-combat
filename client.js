@@ -278,10 +278,10 @@ function actions(choice){
 		}
 	}
 }
-function fightChoose(STR){
+function fightChoose(k){
 	currentList = attackChoiceButtons
 	loadButtons(attackChoiceButtons, "rights")
-	damage = STR
+	damage = k
 }
 
 function fight(choice){
@@ -299,6 +299,7 @@ function fight(choice){
 	}
 	you.STR -= damage
 	damage = 1
+	console.log("erew")
 	updateDisplay(undefined, totalHP)
 }
 function attack(a, b){
