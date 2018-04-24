@@ -69,7 +69,7 @@ function update(who){
 		'execute', who
 	);*/
 	them.pop()
-	updateDisplay(undefined, 9999)
+	
 }
 function updateDisplay(start, totalHP){
 	if(totalHP > 0 && you.CuHP > 0){
@@ -303,7 +303,6 @@ function fight(choice){
 }
 function attack(a, b){
 	b.CuHP -= a.STR
-	update(b)
 }
 
 /*fuanction create(){
