@@ -57,8 +57,9 @@ socket.on('getAttacks', function(data){
 	//Figure out damage and how to do the effects thing
 	for(d = 0; d < data.length; d++){
 		attackButtons.push("<p class='button attack center' onclick='fightChoose(" + data[d].damage + ")'>" + data[d].attackID + "</p>")
+		console.log(data[d].damage)
 	}
-	console.log(data[0].damage)
+	
 	updateDisplay("start", 9999)
 })
 
