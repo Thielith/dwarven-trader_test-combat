@@ -4,6 +4,7 @@ var them = []
 var advantage = 0
 var x = 0
 var y = 6
+var damage = 1
 var attackButtons = [
 	"<p class='button attack center' onclick='loadAttackMenu()'>Back</p>",
 	"<p class='button attack center' onclick='fightChoose()'>Punch</p>", 
@@ -53,6 +54,12 @@ socket.on('getInCombat', function(data){
 })
 socket.on('getAttacks', function(data){
 	console.log(data)
+	//Figure out damage and how to do the effects thing
+	for(d = 0; d < data.length; d++){
+		"<p class='button attack center' onclick='fightChoose(" + data[d].damage + ")'>" + data[d].attackID + "</p>"
+	}
+	attackButtons.push()
+	"<p class='button attack center' onclick='fightChoose()'>Punch</p>"
 	updateDisplay("start", 9999)
 })
 
@@ -271,13 +278,15 @@ function actions(choice){
 		}
 	}
 }
-function fightChoose(){
+function fightChoose(STR){
 	currentList = attackChoiceButtons
 	loadButtons(attackChoiceButtons, "rights")
+	damage = STR
 }
 
 function fight(choice){
 	var totalHP = 0
+	you.STR += damage
 	attack(you, them[choice])
 	for(rz = 0; rz < them.length; rz++){
 		if(them[rz].CuHP <= 0){
@@ -288,6 +297,8 @@ function fight(choice){
 		AI("attack", rz)
 		totalHP += them[rz - 1].CuHP
 	}
+	you.STR -= damage
+	damage = 1
 	updateDisplay(undefined, totalHP)
 }
 function attack(a, b){
