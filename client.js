@@ -54,10 +54,11 @@ socket.on('getInCombat', function(data){
 })
 socket.on('getAttacks', function(data){
 	console.log(data)
-	//Figure out damage and how to do the effects thing
 	for(d = 0; d < data.length; d++){
-		attackButtons.push("<p class='button attack center' onclick='fightChoose(" + data[d].damage + ")'>" + data[d].attackID + "</p>")
+		console.log("|Attack " + d + "|")
 		console.log(data[d].damage)
+		console.log(data[d].attackID)
+		attackButtons.push("<p class='button attack center' onclick='fightChoose(" + data[d].damage + ")'>" + data[d].attackID + "</p>")
 	}
 	
 	updateDisplay("start", 9999)
@@ -280,8 +281,11 @@ function actions(choice){
 }
 function fightChoose(k){
 	currentList = attackChoiceButtons
-	loadButtons(attackChoiceButtons, "rights")
+	console.log(k)
+	console.log(damage)
 	damage = k
+	loadButtons(attackChoiceButtons, "rights")
+	
 }
 
 function fight(choice){
