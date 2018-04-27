@@ -18,7 +18,6 @@ socket.emit(
 	'getPlayerData', you.playerID
 );
 socket.on('getPlayerData', function(data){
-	console.log(data)
 	you.STR = data[0].strength
 	you.AGI = data[0].agility
 	you.CuHP = data[0].currentHP
@@ -53,11 +52,7 @@ socket.on('getInCombat', function(data){
 	)
 })
 socket.on('getAttacks', function(data){
-	console.log(data)
 	for(d = 0; d < data.length; d++){
-		console.log("|Attack " + d + "|")
-		console.log(data[d].damage)
-		console.log(data[d].attackID)
 		attackButtons.push("<p class='button attack center' onclick='fightChoose(" + data[d].damage + ")'>" + data[d].attackID + "</p>")
 	}
 	
@@ -281,8 +276,6 @@ function actions(choice){
 }
 function fightChoose(k){
 	currentList = attackChoiceButtons
-	console.log(k)
-	console.log(damage)
 	damage = k
 	loadButtons(attackChoiceButtons, "rights")
 	
@@ -314,7 +307,6 @@ function fight(choice){
 	}
 	you.STR -= damage
 	damage = 1
-	console.log("erew")
 	updateDisplay(undefined, totalHP)
 }
 function attack(a, b){
