@@ -7,7 +7,7 @@ var y = 6
 var damage = 1
 var attackButtons = [
 	"<p class='button attack center' onclick='loadAttackMenu()'>Back</p>",
-	"<p class='button attack center' onclick='fightChoose()'>Punch</p>", 
+	"<p class='button attack center' onclick='fightChoose(1)'>Punch</p>", 
 ]
 var attackChoiceButtons = [
 	"<p class='button attack center' onclick='loadAttackMenu()'>Back</p>"
@@ -292,14 +292,25 @@ function fight(choice){
 	var totalHP = 0
 	you.STR += damage
 	attack(you, them[choice])
-	for(rz = 0; rz < them.length; rz++){
-		if(them[rz].CuHP <= 0){
-			them[rz].STR = 0
-			them[rz].CuHP = 0
+	if(them.length > 1){
+		for(rz = 0; rz < them.length; rz++){
+			if(them[rz].CuHP <= 0){
+				them[rz].STR = 0
+				them[rz].CuHP = 0
+				attackChoiceButtons[rz + 1] = ""
+			}
+			AI("attack", rz)
+			totalHP += them[rz - 1].CuHP
+		}
+	}
+	else{
+		if(them[0].CuHP <= 0){
+			them[0].STR = 0
+			them[0].CuHP = 0
 			attackChoiceButtons[rz + 1] = ""
 		}
-		AI("attack", rz)
-		totalHP += them[rz - 1].CuHP
+		AI("attack", 0)
+		totalHP = them[0].CuHP
 	}
 	you.STR -= damage
 	damage = 1
