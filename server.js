@@ -9,6 +9,12 @@ var con = mysql.createConnection({
 	database: "test_dwarven"
 })
 
+function getSizeOfObject(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+}
 
 io.sockets.on('connection', function (socket) {
 	var clientIp = socket.request.connection.remoteAddress;
@@ -25,38 +31,29 @@ io.sockets.on('connection', function (socket) {
 		var sql = "SELECT * FROM units WHERE id = " + id + ";"
 		con.query(sql, function(err, result){
 			if (err) throw err;
-			console.log(result)
 			socket.emit(
 				'getPlayerData', result
 			);
 		})
 	})
-	
 	socket.on('getAttacks', function(level){
 		console.log("attack")
 		var sql = "SELECT * FROM _attack_ WHERE level <= " + level + ";"
 		con.query(sql, function(err, result){
 			if (err) throw err;
-			console.log(result)
 			for(var e = 0; e < result.length; e++){
 				var sql1 = "SELECT * FROM attack_e WHERE attackID = " + result[e].attackID + ";"
 				con.query(sql1, function(err1, result1){
 					if (err1) throw err1;
-					console.log("| attack_e result |")
-					console.log(result1)
 					result[e - 1].attackID = result1[0].attackName
 				})
 				var sql2 = "SELECT * FROM combat_style_e WHERE id = " + result[e].typeID + ";"
 				con.query(sql2, function(err2, result2){
 					if (err2) throw err2;
-					console.log("| combat_style_e result |")
-					console.log(result2)
 					result[e - 1].typeID = result2[0].styleName
 				})
 			}
 			setTimeout(function(){
-				console.log("| end result |")
-				console.log(result)
 				socket.emit(
 					'getAttacks', result
 				)
@@ -64,7 +61,6 @@ io.sockets.on('connection', function (socket) {
 			
 		})
 	})
-	
 	socket.on('getInCombat', function(id){
 		console.log("combat")
 		var sql = "SELECT * FROM units WHERE encounterID = " + id[0] + ";"
@@ -82,20 +78,13 @@ io.sockets.on('connection', function (socket) {
 		})
 	})
 
-	socket.on('execute', function (info) {
-		console.log(info)
+	socket.on('updateDB', function (info) {
+		console.log(info) //{playerID: 0, STR: undefined, AGI: undefined, CuHP: undefined, MxHP: undefined, encounter: undefined, lvl: undefined, name: undefined}
 		
 		var sendLine = ""
-		var o;
-		for(i = 0; i < info.length - 1 ; i++){
-			console.log(info[i])
-			sendLine += info[i] + " "
-			o = i
-		}
+		sendLine += info.playerID + " " + info.STR + " " + info.AGI + " " + info.CuHP + " " + info.MxHP + " " + info.encounter + " " + info.lvl + " " + info.name
 		
-		sendLine += "'" + info[o + 1] + "'"
-		
-		var e = 'python database.py ' + sendLine
+		var e = 'python database.py updateUnits ' + sendLine
 		console.log(e)
 		exec(e);
 	});

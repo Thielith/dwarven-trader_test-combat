@@ -59,13 +59,10 @@ socket.on('getAttacks', function(data){
 	updateDisplay("start", 9999)
 })
 
-function update(who){
-	them.push("update")
-	/*socket.emit(
-		'execute', who
-	);*/
-	them.pop()
-	
+function updateDatabase(who){
+	socket.emit(
+		'updateDB', who
+	)
 }
 function updateDisplay(start, totalHP){
 	if(totalHP > 0 && you.CuHP > 0){
@@ -307,43 +304,13 @@ function fight(choice){
 	}
 	you.STR -= damage
 	damage = 1
+	updateDatabase(you)
+	for(u = 0; u < them.length; u++){
+		updateDatabase(them[u])
+	}
 	updateDisplay(undefined, totalHP)
 }
 function attack(a, b){
 	b.CuHP -= a.STR
 }
 
-/*fuanction create(){
-	r += 1
-	
-	document.getElementById('output').innerHTML = "You clicked the create button"
-	list.push("units")
-	socket.emit(
-		'execute', list
-	);
-	list.pop()
-}*/
-
-function pull(){
-	document.getElementById('output').innerHTML = "You clicked the pull button"
-	socket.emit(
-		'pull', 0
-	)
-}
-/*socket.on('pull', function(data){
-	console.log(data)
-	//probally a better way of doing this
-	you.push(data[0].playerID)
-	you.push(data[0].strength)
-	you.push(data[0].agility)
-	you.push(data[0].currentHP)
-	you.push(data[0].maxHP)
-	you.push(data[0].encounterID)
-	
-	them.push(data[1].playerID)
-    them.push(data[1].strength)
-    them.push(data[1].agility)
-    them.push(data[1].currentHP)
-    them.push(data[1].maxHP)
-    them.push(data[1].encounterID)
-})*/
