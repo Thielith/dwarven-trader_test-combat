@@ -33,9 +33,7 @@ socket.on('getPlayerData', function(data){
 socket.on('getInCombat', function(data){
 	for(d = 0; d < data.length; d++){
 		var something = {playerID: undefined, STR: undefined, AGI: undefined, CuHP: undefined, MxHP: undefined, encounter: undefined, lvl: undefined, name: undefined}
-		console.log(something.id)
-		console.log(data[d].playerID)
-		something.id = data[d].playerID
+		something.playerID = data[d].id
 		something.STR = data[d].strength
 		something.AGI = data[d].agility
 		something.CuHP = data[d].currentHP
@@ -43,7 +41,6 @@ socket.on('getInCombat', function(data){
 		something.encounter = data[d].encounterID
 		something.lvl = data[d].level
 		something.name = data[d].name
-		console.log(data[d].playerID)
 		them.push(something)
 	}
 	
