@@ -84,7 +84,7 @@ io.sockets.on('connection', function (socket) {
 		var sendLine = ""
 		sendLine += info.playerID + " " + info.STR + " " + info.AGI + " " + info.CuHP + " " + info.MxHP + " " + info.encounter + " " + info.lvl + " '" + info.name + "'"
 		
-		var e = 'python database.py updateUnits ' + sendLine
+		var e = "python database.py 'updateUnits' " + sendLine
 		console.log(e)
 		exec(e);
 	});
