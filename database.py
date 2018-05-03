@@ -67,7 +67,7 @@ def updateUnitData(connection, tableName, collummNames, values, extra):
 	connection.execute(sqlCommand)
 def updateUnitDB(connection,playerID, strength, aglility, currentHP, maxHP, encounterID, level, name):
 	names = ["playerID","strength","agility","currentHP","maxHP","encounterID","level","name"]
-	values = [playerID, strength, aglility, currentHP, maxHP, encounterID]
+	values = [playerID, strength, aglility, currentHP, maxHP, encounterID,level,name]
 	c = updateUnitData(connection, "units" , names, values, playerID)
 	
 def getDataFromTableByID(connection, table, idName, id):
