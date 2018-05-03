@@ -58,7 +58,10 @@ def updateUnitData(connection, tableName, collummNames, values, extra):
 	collummString = ""
 	i = 0
 	for name in collummNames:
-		collummString += " " + name + " = " + str(values[i])
+		if i == 7:
+			collummString += " " + name + " = '" + str(values[i]) + "'"
+		else:
+			collummString += " " + name + " = " + str(values[i])
 		collummString += ","
 		i+=1
 	collummString = collummString.strip(',')
