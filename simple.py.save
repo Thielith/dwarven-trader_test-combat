@@ -9,15 +9,20 @@ cur = d.cursor()
 #insertIntoDatabase(d,"_item_",['nameID','commodity','basePrice'],["Wheat",1,1])
 #insertIntoDatabase(d,"_item_",['nameID','commodity','basePrice'],["Iron",2,2])
 #insertIntoDatabase(d,"_item_",['nameID','commodity','basePrice'],["Lumber",2,5])
-insertIntoDatabase(d,"_item_",['nameID','commodity','basePrice'],["Stone",2,10])
 
 def create_tools():
 	#tools are commodity type 3
+	# oven = 4
+	# forge = 5
 	insertIntoDatabase(d,"_item_",['nameID','commodity','basePrice'],["Oven",3,10]) #base price is a hidden figure that will act as a reference point for value
 	insertIntoDatabase(d,"_item_",['nameID','commodity','basePrice'],["Forge",3,30])
 def create_recipes():
         insertIntoDatabase(d,"_recipe_",['itemA','quantityA','itemB','quantityB','toolA','resultA','resultQuantityA'],[1,1,3,1,1,4,10])
 	insertIntoDatabase(d,"_item_",['nameID','commodity','basePrice'],["Stone",2,5])
+        for i in range(5):
+
+^G Get Help  ^O Write Out ^W Where Is  ^K Cut Text  ^J Justify   ^C Cur Pos
+
         insertIntoDatabase(d,"_recipe_",['itemA','quantityA','itemB','quantityB','toolA','resultA','resultQuantityA'],[4,3,2,1,2,4,10])
 
 
@@ -50,4 +55,4 @@ def calculatePrices():
     pass
 #getTransactionDetails()
 #create_recipes()
-#create_tools()
+create_tools()

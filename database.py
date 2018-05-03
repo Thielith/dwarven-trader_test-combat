@@ -90,6 +90,7 @@ if sys.argv[1] == "updateUnits":
 	print("close")
 	db.close();
 
+
 '''
 elif sys.argv[7] == "update":
 	print("updating player data")
