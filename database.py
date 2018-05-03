@@ -68,7 +68,7 @@ def updateUnitData(connection, tableName, collummNames, values, extra):
 def updateUnitDB(connection, id, strength, aglility, currentHP, maxHP, encounterID, level, name):
 	names = ["id","strength","agility","currentHP","maxHP","encounterID","level","name"]
 	values = [id, strength, aglility, currentHP, maxHP, encounterID,level,name]
-	c = updateUnitData(connection, "units" , names, values, playerID)
+	c = updateUnitData(connection, "units" , names, values, id)
 	
 def getDataFromTableByID(connection, table, idName, id):
 	#returns a list of all entries matching the id to idName
