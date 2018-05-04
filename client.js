@@ -5,9 +5,10 @@ var advantage = 0
 var x = 0
 var y = 6
 var damage = 1
+var adCost = 0
 var attackButtons = [
 	"<p class='button attack center' onclick='loadAttackMenu()'>Back</p>",
-	"<p class='button attack center' onclick='fightChoose(1)'>Punch</p>", 
+	"<p class='button attack center' onclick='fightChoose(1, 0)'>Punch</p>", 
 ]
 var attackChoiceButtons = [
 	"<p class='button attack center' onclick='loadAttackMenu()'>Back</p>"
@@ -217,7 +218,7 @@ function choice(pick){
 		
 		for(a = 0; a < attackList.length; a++){
 			if(attackList[a].advantage <= advantage){
-				attackButtons.push("<p class='button attack center' onclick='fightChoose(" + attackList[a].damage + ")'>" + attackList[a].attackID + "</p>")
+				attackButtons.push("<p class='button attack center' onclick='fightChoose(" + attackList[a].damage + ", " + attackList[a].advantageCost + ")'>" + attackList[a].attackID + "</p>")
 			}
 		}
 		
@@ -277,9 +278,10 @@ function actions(choice){
 		}
 	}
 }
-function fightChoose(k){
+function fightChoose(k, ad){
 	currentList = attackChoiceButtons
 	damage = k
+	adCost = ad
 	loadButtons(attackChoiceButtons, "rights")
 	
 }
@@ -309,7 +311,9 @@ function fight(choice){
 		totalHP = them[0].CuHP
 	}
 	you.STR -= damage
+	advantage -= adCost
 	damage = 1
+	adCost = 0
 	updateDatabase(you)
 	for(u = 0; u < them.length; u++){
 		updateDatabase(them[u])
@@ -317,7 +321,7 @@ function fight(choice){
 	
 	attackButtons = [
 	"<p class='button attack center' onclick='loadAttackMenu()'>Back</p>",
-	"<p class='button attack center' onclick='fightChoose(1)'>Punch</p>", 
+	"<p class='button attack center' onclick='fightChoose(1, 0)'>Punch</p>", 
 	]
 	updateDisplay(undefined, totalHP)
 }
