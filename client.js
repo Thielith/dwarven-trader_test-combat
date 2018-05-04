@@ -216,7 +216,7 @@ function choice(pick){
 		document.getElementById('output').innerHTML = "You clicked the attack button"
 		
 		for(a = 0; a < attackList.length; a++){
-			if(attackList[d].advantage <= advantage){
+			if(attackList[a].advantage <= advantage){
 				attackButtons.push("<p class='button attack center' onclick='fightChoose(" + attackList[a].damage + ")'>" + attackList[a].attackID + "</p>")
 			}
 		}
