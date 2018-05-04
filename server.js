@@ -79,13 +79,10 @@ io.sockets.on('connection', function (socket) {
 	})
 
 	socket.on('updateDB', function (info) {
-		console.log(info) //{playerID: 0, STR: undefined, AGI: undefined, CuHP: undefined, MxHP: undefined, encounter: undefined, lvl: undefined, name: undefined}
-		
 		var sendLine = ""
 		sendLine += info.playerID + " " + info.STR + " " + info.AGI + " " + info.CuHP + " " + info.MxHP + " " + info.encounter + " " + info.lvl + " '" + info.name + "'"
 		
 		var e = "python database.py 'updateUnits' " + sendLine
-		console.log(e)
 		exec(e);
 	});
 	
