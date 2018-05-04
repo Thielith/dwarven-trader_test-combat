@@ -13,6 +13,7 @@ var attackChoiceButtons = [
 	"<p class='button attack center' onclick='loadAttackMenu()'>Back</p>"
 ]
 var currentList = attackButtons
+var attackList;
 
 socket.emit(
 	'getPlayerData', you.playerID
@@ -53,10 +54,7 @@ socket.on('getInCombat', function(data){
 	)
 })
 socket.on('getAttacks', function(data){
-	for(d = 0; d < data.length; d++){
-		attackButtons.push("<p class='button attack center' onclick='fightChoose(" + data[d].damage + ")'>" + data[d].attackID + "</p>")
-	}
-	
+	attackList = data
 	updateDisplay("start", 9999)
 })
 
@@ -216,6 +214,13 @@ function loadButtons(list, direction){
 function choice(pick){
 	if(pick == 1){
 		document.getElementById('output').innerHTML = "You clicked the attack button"
+		
+		for(a = 0; a < attackList.length; a++){
+			if(attackList[d].advantage <= advantage){
+				attackButtons.push("<p class='button attack center' onclick='fightChoose(" + attackList[a].damage + ")'>" + attackList[a].attackID + "</p>")
+			}
+		}
+		
 		if(attackButtons.length > 6){
 			document.getElementById('rightButton').style.display = "inline"
 			loadButtons(attackButtons, "rights")
@@ -309,6 +314,11 @@ function fight(choice){
 	for(u = 0; u < them.length; u++){
 		updateDatabase(them[u])
 	}
+	
+	attackButtons = [
+	"<p class='button attack center' onclick='loadAttackMenu()'>Back</p>",
+	"<p class='button attack center' onclick='fightChoose(1)'>Punch</p>", 
+	]
 	updateDisplay(undefined, totalHP)
 }
 function attack(a, b){
