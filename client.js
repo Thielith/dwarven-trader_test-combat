@@ -27,6 +27,7 @@ socket.on('getPlayerData', function(data){
 	you.encounter = data[0].encounterID
 	you.lvl = data[0].level
 	you.name = data[0].name
+	you.advantage = data[0].advantage
 	var send = [you.encounter, you.playerID]
 	socket.emit(
 		'getInCombat', send
@@ -180,7 +181,7 @@ function AI(state, which){
 			}
 		}
 	}
-	updateDisplay(undefined, 9999)
+
 }
 
 function loadButtons(list, direction){
@@ -219,7 +220,10 @@ function choice(pick){
 		
 		for(a = 0; a < attackList.length; a++){
 			if(attackList[a].advantage <= advantage){
-				attackButtons.push("<p class='button attack center' onclick='fightChoose(" + attackList[a].damage + ", " + attackList[a].advantageCost + ")'>" + attackList[a].attackID + "</p>")
+				var newButton = "<p class='button attack center' onclick='fightChoose(" + attackList[a].damage + ", " + attackList[a].advantageCost + ")'>" + attackList[a].attackID + "</p>"
+				if(attackButtons.includes(newButton) == false){
+					attackButtons.push(newButton)
+				}
 			}
 		}
 		
@@ -278,6 +282,7 @@ function actions(choice){
 			AI("counter", r)
 		}
 	}
+	updateDisplay(undefined, 9999)
 }
 function fightChoose(k, ad){
 	currentList = attackChoiceButtons
@@ -311,12 +316,21 @@ function fight(choice){
 		AI("attack", 0)
 		totalHP = them[0].CuHP
 	}
+	resolve()
+}
+function attack(a, b){
+	b.CuHP -= a.STR
+}
+
+function resolve(){
 	you.STR -= damage
 	advantage -= adCost
 	damage = 1
 	adCost = 0
+	you.advantage = advantage
 	updateDatabase(you)
 	for(u = 0; u < them.length; u++){
+		them[u].advantage = -advantage
 		updateDatabase(them[u])
 	}
 	
@@ -326,7 +340,3 @@ function fight(choice){
 	]
 	updateDisplay(undefined, totalHP)
 }
-function attack(a, b){
-	b.CuHP -= a.STR
-}
-
