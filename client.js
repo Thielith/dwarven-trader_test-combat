@@ -1,5 +1,5 @@
 var socket = io.connect('http://192.168.10.206:33333');
-var you = {playerID: 0, STR: undefined, AGI: undefined, CuHP: undefined, MxHP: undefined, encounter: undefined, lvl: undefined, name: undefined}
+var you = {playerID: 0, STR: undefined, AGI: undefined, CuHP: undefined, MxHP: undefined, encounter: undefined, lvl: undefined, name: undefined, advantage: undefined}
 var them = []
 var advantage = 0
 var x = 0
@@ -34,7 +34,7 @@ socket.on('getPlayerData', function(data){
 })
 socket.on('getInCombat', function(data){
 	for(d = 0; d < data.length; d++){
-		var something = {playerID: undefined, STR: undefined, AGI: undefined, CuHP: undefined, MxHP: undefined, encounter: undefined, lvl: undefined, name: undefined}
+		var something = {playerID: undefined, STR: undefined, AGI: undefined, CuHP: undefined, MxHP: undefined, encounter: undefined, lvl: undefined, name: undefined, advantage: undefined}
 		something.playerID = data[d].id
 		something.STR = data[d].strength
 		something.AGI = data[d].agility
@@ -43,6 +43,7 @@ socket.on('getInCombat', function(data){
 		something.encounter = data[d].encounterID
 		something.lvl = data[d].level
 		something.name = data[d].name
+		something.advantage = data[d].advantage
 		them.push(something)
 	}
 	
@@ -178,8 +179,8 @@ function AI(state, which){
 				document.getElementById('output').innerHTML = "you both counter"
 			}
 		}
-		updateDisplay(undefined, 9999)
 	}
+	updateDisplay(undefined, 9999)
 }
 
 function loadButtons(list, direction){
