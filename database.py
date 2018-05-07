@@ -68,9 +68,9 @@ def updateUnitData(connection, tableName, collummNames, values, extra):
 	sqlCommand = "UPDATE " + tableName + " SET" + collummString + " WHERE id = " + extra + ";"
 	print(sqlCommand)
 	connection.execute(sqlCommand)
-def updateUnitDB(connection, id, strength, aglility, currentHP, maxHP, encounterID, level, name):
-	names = ["id","strength","agility","currentHP","maxHP","encounterID","level","name"]
-	values = [id, strength, aglility, currentHP, maxHP, encounterID,level,name]
+def updateUnitDB(connection, id, strength, aglility, currentHP, maxHP, encounterID, level, name, advantage):
+	names = ["id","strength","agility","currentHP","maxHP","encounterID","level","name","advantage"]
+	values = [id, strength, aglility, currentHP, maxHP, encounterID,level,name,advantage]
 	c = updateUnitData(connection, "units" , names, values, id)
 	
 def getDataFromTableByID(connection, table, idName, id):
@@ -87,7 +87,7 @@ def getDataFromTableByID(connection, table, idName, id):
 if sys.argv[1] != None:
 	if sys.argv[1] == "updateUnits":
 		print("updating player" + sys.argv[8])
-		updateUnitDB(cur,sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[5],sys.argv[6],sys.argv[7],sys.argv[8],sys.argv[9])
+		updateUnitDB(cur,sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[5],sys.argv[6],sys.argv[7],sys.argv[8],sys.argv[9],sys.argv[10])
 		print("commit update")
 		db.commit();
 		print("close")
