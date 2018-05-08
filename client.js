@@ -224,6 +224,8 @@ function choice(pick){
 				if(attackButtons.includes(newButton) == false){
 					attackButtons.push(newButton)
 				}
+				console.log("| Attack List |")
+				console.log(attackList[a].advantage)
 			}
 		}
 		
@@ -288,6 +290,8 @@ function fightChoose(k, ad){
 	currentList = attackChoiceButtons
 	damage = k
 	adCost = ad
+	console.log("| Fight Choose |")
+	console.log(adCost)
 	loadButtons(attackChoiceButtons, "rights")
 	
 }
@@ -325,6 +329,8 @@ function attack(a, b){
 function resolve(totalHP){
 	you.STR -= damage
 	advantage -= adCost
+	console.log("| Resolve |")
+	console.log(adCost)
 	damage = 1
 	adCost = 0
 	you.advantage = advantage
