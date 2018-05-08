@@ -304,7 +304,7 @@ function fight(choice){
 				attackChoiceButtons[rz + 1] = ""
 			}
 			AI("attack", rz)
-			totalHP += them[rz - 1].CuHP
+			totalHP += them[rz].CuHP
 		}
 	}
 	else{
@@ -316,13 +316,13 @@ function fight(choice){
 		AI("attack", 0)
 		totalHP = them[0].CuHP
 	}
-	resolve()
+	resolve(totalHP)
 }
 function attack(a, b){
 	b.CuHP -= a.STR
 }
 
-function resolve(){
+function resolve(totalHP){
 	you.STR -= damage
 	advantage -= adCost
 	damage = 1
