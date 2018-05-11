@@ -49,10 +49,6 @@ def updateDatabaseData(connection,tableName,collummNames, values):
 	sqlCommand = "UPDATE " + tableName + " SET" + collummString + " WHERE playerID = " + sys.argv[1] + ";"
 	print(sqlCommand)
 	connection.execute(sqlCommand)
-def updateCombatDB(connection,playerID, strength, aglility, currentHP, maxHP, encounterID):
-	names = ["playerID","strength","agility","currentHP","maxHP","encounterID"]
-	values = [playerID, strength, aglility, currentHP, maxHP, encounterID]
-	c = updateDatabaseData(connection, "units" , names, values)
 
 def updateUnitData(connection, tableName, collummNames, values, extra):
 	collummString = ""
@@ -72,6 +68,32 @@ def updateUnitDB(connection, id, strength, aglility, currentHP, maxHP, encounter
 	names = ["id","strength","agility","currentHP","maxHP","encounterID","level","name","advantage"]
 	values = [id, strength, aglility, currentHP, maxHP, encounterID,level,name,advantage]
 	c = updateUnitData(connection, "units" , names, values, id)
+
+def updateStatusData(connection, tableName, collummNames, values): #gotta figure out how to remove some statuses and add more, could remove statuses with the unit IDs and add all of the ones from client
+	connection = database.cursor()
+	insertString = "("
+	valueString = "("
+	i = 0
+	for name in names:
+		insertString += name +","
+		valueString += "'" + str(values[i]) + "'"
+		valueString += ","
+		i+=1
+	insertString = insertString.strip(',')
+	valueString = valueString.strip(',')
+	insertString += ")"
+	valueString += ")"
+	sqlCommand = "INSERT INTO " + tableName + " " + insertString + " VALUES " + valueString + ";"
+	print(sqlCommand)
+	e = connection.execute(sqlCommand)
+	print(e)
+	print("commit insert")
+	database.commit()
+
+def updateStatusDB(connection, unitID, statusID, magnitude):
+	names = ["unitID", "statusID", "magnitude"]
+	values = [unitID, statusID, magnitude]
+	c = updateStatusData(connection, "statuses", names, values)
 	
 def getDataFromTableByID(connection, table, idName, id):
 	#returns a list of all entries matching the id to idName
@@ -92,16 +114,12 @@ if sys.argv[1] != None:
 		db.commit();
 		print("close")
 		db.close();
+	
+	elif sys.argv[1] == "updateStatus":
+		print("adding statuses")
+		updateStatusDB
+		
 
-'''
-elif sys.argv[7] == "update":
-	print("updating player data")
-	updateCombatDB(cur,sys.argv[1],sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[5],sys.argv[6])
-	print("commit update")
-	db.commit();
-	print("close")
-	db.close();
-'''
 #x = getDataFromTableByID(cur,"player","player_name","Billy")
 
 def getAllDataInTable(database, table):
