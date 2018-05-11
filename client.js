@@ -1,6 +1,8 @@
 var socket = io.connect('http://192.168.10.206:33333');
 var you = {playerID: 0, STR: undefined, AGI: undefined, CuHP: undefined, MxHP: undefined, encounter: undefined, lvl: undefined, name: undefined, advantage: undefined}
 var them = []
+var youStatus = {unitID: undefined, statusID: undefined, magnitude:undefined}
+var themStatus = []
 var advantage = 0
 var x = 0
 var y = 6
@@ -16,9 +18,7 @@ var attackChoiceButtons = [
 var currentList = attackButtons
 var attackList;
 
-socket.emit(
-	'getPlayerData', you.playerID
-);
+socket.emit('getPlayerData', you.playerID);
 socket.on('getPlayerData', function(data){
 	you.STR = data[0].strength
 	you.AGI = data[0].agility
@@ -29,9 +29,7 @@ socket.on('getPlayerData', function(data){
 	you.name = data[0].name
 	you.advantage = data[0].advantage
 	var send = [you.encounter, you.playerID]
-	socket.emit(
-		'getInCombat', send
-	);
+	socket.emit('getInCombat', send);
 })
 socket.on('getInCombat', function(data){
 	for(d = 0; d < data.length; d++){
@@ -52,21 +50,57 @@ socket.on('getInCombat', function(data){
 		var acString = "<p class='button attack center' onclick='fight(" + r + ")'>" + them[r].name + "</p>"
 		attackChoiceButtons.push(acString)
 	}
-	socket.emit(
-		'getAttacks', you.lvl
-	)
+	socket.emit('getAttacks', you.lvl)
 })
 socket.on('getAttacks', function(data){
 	attackList = data
+	socket.emit('getPlayerStatus', you.playerID)
+
+})
+socket.on('getPlayerStatus', function(data){
+	youStatus.unitID = data[0].unitID
+	youStatus.statusID = data[0].statusID
+	youStatus.magnitude = data[0].magnitude
+	
+	var m = 0
+	var loopa;
+	function loop(){
+		if(m < them.length - 1){
+			loopa = setTimeout(function(){
+				socket.emit('getStatuses', them[m].playerID)
+				clearTimeout(loopa);
+				loop();
+				m += 1
+			}, 200)
+		}
+		else{
+			m = 0
+		}
+	}
+	loop()
+})
+socket.on('getStatuses', function(data){
+	var neew = {unitID: undefined, statusID: undefined, magnitude:undefined}
+	neew.unitID = data[0].unitID
+	neew.statusID = data[0].statusID
+	neew.magnitude = data[0].magnitude
+	themStatus.push(neew)
 	updateDisplay("start", 9999)
 })
 
-function updateDatabase(who){
-	socket.emit(
-		'updateDB', who
-	)
+function updateDatabase(who, num){
+	socket.emit('updateDB', who)
+	if(who == you){
+		socket.emit('updateStatus', youStatus)
+	}
+	else{
+		socket.emit('updateStatus', themStatus[num])
+	}
+	
 }
 function updateDisplay(start, totalHP){
+	console.log(youStatus)
+	console.log(themStatus)
 	if(totalHP > 0 && you.CuHP > 0){
 		loadAttackMenu()
 		document.getElementById('player').innerHTML = you.CuHP + " / " + you.MxHP
@@ -224,8 +258,6 @@ function choice(pick){
 				if(attackButtons.includes(newButton) == false){
 					attackButtons.push(newButton)
 				}
-				console.log("| Attack List |")
-				console.log(attackList[a].advantage)
 			}
 		}
 		
@@ -290,8 +322,6 @@ function fightChoose(k, ad){
 	currentList = attackChoiceButtons
 	damage = k
 	adCost = ad
-	console.log("| Fight Choose |")
-	console.log(adCost)
 	loadButtons(attackChoiceButtons, "rights")
 	
 }
@@ -329,15 +359,13 @@ function attack(a, b){
 function resolve(totalHP){
 	you.STR -= damage
 	advantage -= adCost
-	console.log("| Resolve |")
-	console.log(adCost)
 	damage = 1
 	adCost = 0
 	you.advantage = advantage
-	updateDatabase(you)
+	updateDatabase(you, y)
 	for(u = 0; u < them.length; u++){
 		them[u].advantage = -advantage
-		updateDatabase(them[u])
+		updateDatabase(them[u], u)
 	}
 	
 	attackButtons = [
