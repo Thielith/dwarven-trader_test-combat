@@ -17,6 +17,14 @@ def getFromDatabaseSumOfFieldInTableByGroupWhereXisY(database,field,table,group,
 	for v in values:
 		ret.append(v)
 	return ret
+def getSumOfItemsForID(database,item,id):
+	connection = database.cursor()
+	query = "select sum(quantity) from items where itemid = " + str(item) + " and ownerID = " + str(id) +";"
+	print(query)
+	values = connection.fetchall()
+	return values
+
+
 def insertIntoDatabase(database,tableName,names,values):
 	connection = database.cursor()
 	insertString = "("
@@ -38,7 +46,7 @@ def insertIntoDatabase(database,tableName,names,values):
 	print("commit insert")
 	database.commit()
 
-def updateDatabaseData(connection,tableName,collummNames, values):
+def updateDatabaseData(connection,tableName,collummNames, values, idName = "playerID"):
 	collummString = ""
 	i = 0
 	for name in collummNames:
@@ -105,7 +113,7 @@ def getDataFromTableByID(connection, table, idName, id):
 		ret.append(v)
 #	print(ret)
 	return ret
-	
+'''	
 if sys.argv[1] != None:
 	if sys.argv[1] == "updateUnits":
 		print("updating player" + sys.argv[8])
@@ -120,6 +128,19 @@ if sys.argv[1] != None:
 		updateStatusDB
 		
 
+<<<<<<< HEAD
+=======
+
+
+elif sys.argv[7] == "update":
+	print("updating player data")
+	updateCombatDB(cur,sys.argv[1],sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[5],sys.argv[6])
+	print("commit update")
+	db.commit();
+	print("close")
+	db.close();
+'''
+>>>>>>> 2bb796bfc76926e5119ef966e5a41a92a5c2dd5e
 #x = getDataFromTableByID(cur,"player","player_name","Billy")
 
 def getAllDataInTable(database, table):
