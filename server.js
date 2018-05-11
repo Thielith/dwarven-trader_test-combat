@@ -77,7 +77,27 @@ io.sockets.on('connection', function (socket) {
 			);
 		})
 	})
-
+	
+	socket.on('getPlayerStatus', function(id){
+		var sql = "SELECT * FROM statuses WHERE unitID = " + id + ";"
+		con.query(sql, function(err, result){
+			if (err) throw err;
+			socket.emit(
+				'getPlayerStatus', result
+			);
+		})
+	})
+	socket.on('getStatuses', function(id){
+		var sql = "SELECT * FROM statuses WHERE unitID = " + id + ";"
+		con.query(sql, function(err, result){
+			if (err) throw err;
+			socket.emit(
+				'getStatuses', result
+			);
+		})
+	})
+	
+	
 	socket.on('updateDB', function (info) {
 		var sendLine = ""
 		sendLine += info.playerID + " " + info.STR + " " + info.AGI + " " + info.CuHP + " " + info.MxHP + " " + info.encounter + " " + info.lvl + " '" + info.name + "' " + info.advantage
