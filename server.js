@@ -98,7 +98,7 @@ io.sockets.on('connection', function (socket) {
 	})
 	
 	
-	socket.on('updateDB', function (info) {
+	socket.on('updateDB', function (info){
 		var sendLine = ""
 		sendLine += info.playerID + " " + info.STR + " " + info.AGI + " " + info.CuHP + " " + info.MxHP + " " + info.encounter + " " + info.lvl + " '" + info.name + "' " + info.advantage
 		
@@ -106,6 +106,17 @@ io.sockets.on('connection', function (socket) {
 		console.log(e)
 		exec(e);
 	});
+	socket.on('updateStatus', function(info){
+		var e = 'python database.py deleteStatusByUnitID ' + info[0]
+		console.log(e)
+		exec(e);
+		info.shift();
+		for(s = 0; s < info.length; s++){
+			var e = "python database.py updateStatus " + info[0].unitID + " " + info[0].statusID + " " + info[0].magnitude
+			console.log(e)
+			exec(e);
+		}
+	})
 	
 	socket.on('disconnect', function(){
 		console.log("Someone From " + clientIp + " disconnected")

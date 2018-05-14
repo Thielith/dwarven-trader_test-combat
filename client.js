@@ -1,16 +1,14 @@
 var socket = io.connect('http://192.168.10.206:33333');
 var you = {playerID: 0, STR: undefined, AGI: undefined, CuHP: undefined, MxHP: undefined, encounter: undefined, lvl: undefined, name: undefined, advantage: undefined}
 var them = []
-var youStatus = {unitID: undefined, statusID: undefined, magnitude:undefined}
-var themStatus = []
 var advantage = 0
 var x = 0
 var y = 6
-var damage = 1
-var adCost = 0
+var damage = 1, adCost = 0
+var statusGive, statusGet, statusClear, statuses = []
 var attackButtons = [
 	"<p class='button attack center' onclick='loadAttackMenu()'>Back</p>",
-	"<p class='button attack center' onclick='fightChoose(1, 0)'>Punch</p>", 
+	"<p class='button attack center' onclick='fightChoose(1, 0, -1, -1, -1)'>Punch</p>", 
 ]
 var attackChoiceButtons = [
 	"<p class='button attack center' onclick='loadAttackMenu()'>Back</p>"
@@ -58,12 +56,9 @@ socket.on('getAttacks', function(data){
 
 })
 socket.on('getPlayerStatus', function(data){
-	youStatus.unitID = data[0].unitID
-	youStatus.statusID = data[0].statusID
-	youStatus.magnitude = data[0].magnitude
+	statuses.push(data)
 	
-	var m = 0
-	var loopa;
+	var m = 0, loopa;
 	function loop(){
 		if(m < them.length - 1){
 			loopa = setTimeout(function(){
@@ -80,22 +75,15 @@ socket.on('getPlayerStatus', function(data){
 	loop()
 })
 socket.on('getStatuses', function(data){
-	var neew = {unitID: undefined, statusID: undefined, magnitude:undefined}
-	neew.unitID = data[0].unitID
-	neew.statusID = data[0].statusID
-	neew.magnitude = data[0].magnitude
-	themStatus.push(neew)
+	statuses.push(data)
 	updateDisplay("start", 9999)
 })
 
-function updateDatabase(who, num){
+function updateDatabase(who){
 	socket.emit('updateDB', who)
-	if(who == you){
-		socket.emit('updateStatus', youStatus)
-	}
-	else{
-		socket.emit('updateStatus', themStatus[num])
-	}
+	statuses.unshift(who.playerID)
+	socket.emit('updateStatus', statuses)
+	statuses.shift()
 	
 }
 function updateDisplay(start, totalHP){
@@ -254,7 +242,10 @@ function choice(pick){
 		
 		for(a = 0; a < attackList.length; a++){
 			if(attackList[a].advantage <= advantage){
-				var newButton = "<p class='button attack center' onclick='fightChoose(" + attackList[a].damage + ", " + attackList[a].advantageCost + ")'>" + attackList[a].attackID + "</p>"
+				var newButton = "<p class='button attack center' onclick='fightChoose(" + 
+				attackList[a].damage + ", " + attackList[a].advantageCost + 
+				attackList[a].effectGive + attackList[a].effectGet + attackList[a].effectClear +
+				")'>" + attackList[a].attackID + "</p>"
 				if(attackButtons.includes(newButton) == false){
 					attackButtons.push(newButton)
 				}
@@ -318,24 +309,38 @@ function actions(choice){
 	}
 	updateDisplay(undefined, 9999)
 }
-function fightChoose(k, ad){
+function fightChoose(k, ad, give, get, clear){
 	currentList = attackChoiceButtons
-	damage = k
-	adCost = ad
+	damage = k, adCost = ad
+	statusGive = give, statusGet = get, statusClear = clear
 	loadButtons(attackChoiceButtons, "rights")
-	
 }
 
 function fight(choice){
 	var totalHP = 0
 	you.STR += damage
 	attack(you, them[choice])
+	if(statusClear != -1){
+		for(s = 0; s < statuses.length; s++){
+			if(statuses[s].unitID == you.playerID && statusClear == statuses[s].statusID){
+				statuses.splice(s, 1)
+			}
+		}
+	}
+	if(statusGet != -1){
+		statuses.push({unitID: you.playerID, statusID: statusGet, magnitude: 1})
+	}
+	
+	
 	if(them.length > 1){
 		for(rz = 0; rz < them.length; rz++){
 			if(them[rz].CuHP <= 0){
 				them[rz].STR = 0
 				them[rz].CuHP = 0
 				attackChoiceButtons[rz + 1] = ""
+			}
+			if(statusGive != -1 and them[rz].CuHP > 0){
+				statuses.push({unitID: them[rz].playerID, statusID: statusGive, magnitude: 1})
 			}
 			AI("attack", rz)
 			totalHP += them[rz].CuHP
@@ -346,6 +351,9 @@ function fight(choice){
 			them[0].STR = 0
 			them[0].CuHP = 0
 			attackChoiceButtons[rz + 1] = ""
+		}
+		if(statusGive != -1 and them[rz].CuHP > 0){
+				statuses.push({unitID: them[rz].playerID, statusID: statusGive, magnitude: 1})
 		}
 		AI("attack", 0)
 		totalHP = them[0].CuHP
@@ -362,10 +370,10 @@ function resolve(totalHP){
 	damage = 1
 	adCost = 0
 	you.advantage = advantage
-	updateDatabase(you, y)
+	updateDatabase(you)
 	for(u = 0; u < them.length; u++){
 		them[u].advantage = -advantage
-		updateDatabase(them[u], u)
+		updateDatabase(them[u])
 	}
 	
 	attackButtons = [
