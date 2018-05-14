@@ -87,8 +87,7 @@ function updateDatabase(who){
 	
 }
 function updateDisplay(start, totalHP){
-	console.log(youStatus)
-	console.log(themStatus)
+	console.log(statuses)
 	if(totalHP > 0 && you.CuHP > 0){
 		loadAttackMenu()
 		document.getElementById('player').innerHTML = you.CuHP + " / " + you.MxHP
