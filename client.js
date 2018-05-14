@@ -352,7 +352,7 @@ function fight(choice){
 			them[0].CuHP = 0
 			attackChoiceButtons[rz + 1] = ""
 		}
-		if(statusGive != -1 and them[rz].CuHP > 0){
+		if(statusGive != -1 && them[rz].CuHP > 0){
 				statuses.push({unitID: them[rz].playerID, statusID: statusGive, magnitude: 1})
 		}
 		AI("attack", 0)
