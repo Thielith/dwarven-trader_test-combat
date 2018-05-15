@@ -19,11 +19,10 @@ def getFromDatabaseSumOfFieldInTableByGroupWhereXisY(database,field,table,group,
 	return ret
 def getSumOfItemsForID(database,item,id):
 	connection = database.cursor()
-	query = "select sum(quantity) from items where itemid = " + str(item) + " and ownerID = " + str(id) +";"
+	query = "select sum (quantity) from items where itemid = " + str(item) + " and ownerID = " + str(id) +";"
 	print(query)
 	values = connection.fetchall()
 	return values
-
 
 def insertIntoDatabase(database,tableName,names,values):
 	connection = database.cursor()
@@ -46,7 +45,7 @@ def insertIntoDatabase(database,tableName,names,values):
 	print("commit insert")
 	database.commit()
 
-def updateDatabaseData(connection,tableName,collummNames, values, idName = "playerID"):
+def updateDatabaseData(connection,tableName,collummNames, values):
 	collummString = ""
 	i = 0
 	for name in collummNames:
@@ -57,6 +56,10 @@ def updateDatabaseData(connection,tableName,collummNames, values, idName = "play
 	sqlCommand = "UPDATE " + tableName + " SET" + collummString + " WHERE playerID = " + sys.argv[1] + ";"
 	print(sqlCommand)
 	connection.execute(sqlCommand)
+def updateCombatDB(connection,playerID, strength, aglility, currentHP, maxHP, encounterID):
+	names = ["playerID","strength","agility","currentHP","maxHP","encounterID"]
+	values = [playerID, strength, aglility, currentHP, maxHP, encounterID]
+	c = updateDatabaseData(connection, "units" , names, values)
 
 def updateUnitData(connection, tableName, collummNames, values, extra):
 	collummString = ""
@@ -76,35 +79,7 @@ def updateUnitDB(connection, id, strength, aglility, currentHP, maxHP, encounter
 	names = ["id","strength","agility","currentHP","maxHP","encounterID","level","name","advantage"]
 	values = [id, strength, aglility, currentHP, maxHP, encounterID,level,name,advantage]
 	c = updateUnitData(connection, "units" , names, values, id)
-
-def updateStatusData(connection, tableName, collummNames, values): #gotta figure out how to remove some statuses and add more, could remove statuses with the unit IDs and add all of the ones from client
-	insertString = "("
-	valueString = "("
-	i = 0
-	for name in names:
-		insertString += name +","
-		valueString += "'" + str(values[i]) + "'"
-		valueString += ","
-		i+=1
-	insertString = insertString.strip(',')
-	valueString = valueString.strip(',')
-	insertString += ")"
-	valueString += ")"
-	sqlCommand = "INSERT INTO " + tableName + " " + insertString + " VALUES " + valueString + ";"
-	print(sqlCommand)
-	e = connection.execute(sqlCommand)
-	print(e)
-	print("commit insert")
-	database.commit()
-def updateStatusDB(connection, unitID, statusID, magnitude):
-	names = ["unitID", "statusID", "magnitude"]
-	values = [unitID, statusID, magnitude]
-	c = updateStatusData(connection, "statuses", names, values)
-def deleteStatusByUnitID(connection, tableName, unitID):
-	sqlCommand = "DELETE FROM " + tableName + " WHERE unitID = " + unitID
-	print(sqlCommand)
-	connection.execute(sqlCommand)
-
+	
 def getDataFromTableByID(connection, table, idName, id):
 	#returns a list of all entries matching the id to idName
 	sqlCommand = "SELECT * FROM  " + table + " WHERE " + idName + " = '" +  str(id) + "';"
@@ -115,33 +90,26 @@ def getDataFromTableByID(connection, table, idName, id):
 		ret.append(v)
 #	print(ret)
 	return ret
-try:
-	if sys.argv[1] != None:
-		if sys.argv[1] == "updateUnits":
-			print("updating player" + sys.argv[8])
-			updateUnitDB(cur,sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[5],sys.argv[6],sys.argv[7],sys.argv[8],sys.argv[9],sys.argv[10])
-			print("commit update")
-			db.commit();
-			print("close")
-			db.close();
-	
-		elif sys.argv[1] == "deleteStatusByUnitID":
-			print("deleting statuses with userID of " + sys.argv[2])
-			deleteStatusByUnitID(cur, "statuses", sys.argv[2])
-			print("commit update")
-			db.commit();
-			print("close")
-			db.close();
-	
-		elif sys.argv[1] == "updateStatus":
-			print("adding statuses")
-			updateStatusDB(cur, sys.argv[2], sys.argv[3], sys.argv[4])
-			print("commit update")
-			db.commit();
-			print("close")
-			db.close();
-except:
-	print("invaild call to system variable")
+'''	
+if sys.argv[1] != None:
+	if sys.argv[1] == "updateUnits":
+		print("updating player" + sys.argv[8])
+		updateUnitDB(cur,sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[5],sys.argv[6],sys.argv[7],sys.argv[8],sys.argv[9],sys.argv[10])
+		print("commit update")
+		db.commit();
+		print("close")
+		db.close();
+
+
+
+elif sys.argv[7] == "update":
+	print("updating player data")
+	updateCombatDB(cur,sys.argv[1],sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[5],sys.argv[6])
+	print("commit update")
+	db.commit();
+	print("close")
+	db.close();
+'''
 #x = getDataFromTableByID(cur,"player","player_name","Billy")
 
 def getAllDataInTable(database, table):
