@@ -76,7 +76,7 @@ socket.on('getPlayerStatus', function(data){
 })
 socket.on('getStatuses', function(data){
 	statuses.push(data)
-	console.log(data+"hi")
+	console.log(data)
 	socket.emit('getStatusNames')
 })
 socket.on('getStatusNames', function(data){
@@ -104,10 +104,6 @@ function updateDisplay(start, totalHP){
 				var t = document.getElementById('enemy').innerHTML =
 					document.getElementById('enemy').innerHTML
 					+ "<p id='enemy" + r + "'>" + them[r].name + ": " + them[r].CuHP + " / " + them[r].MxHP + "</p>";
-				
-				var e = document.getElementById('enemyStatus').innerHTML =
-					document.getElementById('enemyStatus').innerHTML
-					+ "<p id='enemyStatus" + r + "'>" + statusNames[statuses[r].statusID].statusName + "</p>";
 			}
 			for(st = 0; st < statuses.length; st++){
 				console.log(st)
