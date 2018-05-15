@@ -96,7 +96,7 @@ function updateDisplay(start, totalHP){
 	console.log(statuses)
 	if(totalHP > 0 && you.CuHP > 0){
 		loadAttackMenu()
-		document.getElementById('player').innerHTML = you.CuHP + " / " + you.MxHP
+		document.getElementById('player').innerHTML = you.name + ": " + you.CuHP + " / " + you.MxHP
 		
 		if(start != undefined){
 			for(r = 0; r < them.length; r++){
@@ -108,13 +108,16 @@ function updateDisplay(start, totalHP){
 			for(st = 0; st < statuses.length; st++){
 				console.log(st)
 				if(statuses[st].unitID == 0){
-					var p = document.getElementById('playerStatus').innerHTML =
+					console.log("statuses.unitID = 0")
+					document.getElementById('playerStatus').innerHTML =
 						document.getElementById('playerStatus').innerHTML
 						+ "<p id='playerStatus" + st + "'>" + statusNames[statuses[st].statusID].statusName + "</p>";
 				}
 				for(ste = 0; ste < them.length; ste++){
+					console.log("ste")
 					if(statuses[st].unitID == them[ste].playerID){
-						var p = document.getElementById('enemyStatus').innerHTML =
+						console.log("statuses.unitID = them.playerID")
+						document.getElementById('enemyStatus').innerHTML =
 							document.getElementById('enemyStatus').innerHTML
 							+ "<p id='enemyStatus" + ste + "'>" + statusNames[statuses[st].statusID].statusName + "</p>";
 					}
