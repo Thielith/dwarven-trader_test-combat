@@ -27,7 +27,6 @@ class Transaction:
 		
 		connection = database.cursor()
 	        query = "select * from items where ownerID = " + str(buyer) + " and itemID =" + str(item_id) 
-		print(query)
 		connection.execute(query)
 		
 		values = connection.fetchall()
@@ -35,16 +34,17 @@ class Transaction:
 		if values.__len__() > 0: #did the unit already have an entry for this item?
 			oldValue = values[0]
 			sqlCommand = "UPDATE items  SET quantity ="  + str(oldValue + quantity) + " WHERE ownerID = "  + str(buyer) + " and itemType = " + str(item_id)
+			print(sqlCommand)
 		else:
                         sqlCommand = "UPDATE  items SET quantity =" + str(quantity) + " WHERE ownerID = "  + str(buyer) + " and itemType = " + str(item_id)
+			print(sqlCommand)def updateItemsFromTransactions(database):
+
 	       	if values.__len__()>1:
                         print("error in update items duplicate entries for unit id")
 
 		#take away quantityA from unitB
-                
-		query = "select * from items where ownerID = " + str(seller) + " and itemID =" + str(item_id)
-                print(query)
-		connection.execute(query)
+                query = "select * from items where ownerID = " + str(seller) + " and itemID =" + str(item_id)
+                connection.execute(query)
                 values = connection.fetchall()
 		if values.__len__()>1:
 			print("error in update items duplicate entries for unit id") 
@@ -67,7 +67,6 @@ def updateItemsFromTransactions(database):
 
 	values = connection.fetchall()
 	for t in values:
-		print(t)
 		transactions.append(Transaction(t[1],t[2],t[3],t[4],t[6],t[7]))
 	#update items to reflect change in total from transactions
 	for t in transactions:

@@ -10,6 +10,8 @@ cur = d.cursor()
 #insertIntoDatabase(d,"_item_",['nameID','commodity','basePrice'],["Iron",2,2])
 #insertIntoDatabase(d,"_item_",['nameID','commodity','basePrice'],["WOOD",2,5])
 #insertIntoDatabase(d,"_item_",['nameID','commodity','basePrice'],["Bread",1,0])
+#for i in range(100):
+#	insertIntoDatabase(d,"items",['ownerID','quantity','qualityID','itemID'],[random.randint(1,100),random.randint(5,200),1,random.randint(1,8)])
 
 def create_tools():
 	#tools are commodity type 3
@@ -62,7 +64,7 @@ def calculateIndividualValue(unit_id,item_id):
 def calculatePrices():
     pass
 #getTransactionDetails()
-getSumOfItemsForID(d,1,1)
+#getSumOfItemsForID(d,1,1)
 
 #create_recipes()
 #create_tools()
