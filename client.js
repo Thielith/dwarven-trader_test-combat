@@ -76,7 +76,7 @@ socket.on('getPlayerStatus', function(data){
 })
 socket.on('getStatuses', function(data){
 	statuses.push(data)
-	console.log(data)
+	console.log(data+"hi")
 	socket.emit('getStatusNames')
 })
 socket.on('getStatusNames', function(data){
