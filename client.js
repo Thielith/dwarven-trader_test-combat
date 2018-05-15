@@ -27,6 +27,7 @@ socket.on('getPlayerData', function(data){
 	you.name = data[0].name
 	you.advantage = data[0].advantage
 	var send = [you.encounter, you.playerID]
+	console.log("getPlayerData")
 	socket.emit('getInCombat', send);
 })
 socket.on('getInCombat', function(data){
@@ -48,15 +49,19 @@ socket.on('getInCombat', function(data){
 		var acString = "<p class='button attack center' onclick='fight(" + r + ")'>" + them[r].name + "</p>"
 		attackChoiceButtons.push(acString)
 	}
+	console.log("getInCombat")
 	socket.emit('getAttacks', you.lvl)
 })
 socket.on('getAttacks', function(data){
 	attackList = data
+	console.log("getAttacks")
 	socket.emit('getPlayerStatus', you.playerID)
 
 })
 socket.on('getPlayerStatus', function(data){
 	statuses.push(data)
+	console.log("getPlayerStatuses")
+	console.log(data)
 	
 	var m = 0, loopa;
 	function loop(){
@@ -76,11 +81,13 @@ socket.on('getPlayerStatus', function(data){
 })
 socket.on('getStatuses', function(data){
 	statuses.push(data)
+	console.log("getStatuses")
 	console.log(data)
 	socket.emit('getStatusNames')
 })
 socket.on('getStatusNames', function(data){
 	statusNames.push(data)
+	console.log("getStatusNames")
 	console.log(data)
 	updateDisplay("start", 9999)
 })
