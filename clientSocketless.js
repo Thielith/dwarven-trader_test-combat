@@ -69,14 +69,7 @@ function loadAttackMenu(){
 		"<p class='button attack center' onclick='choice(2)'>Items</p>", 
 		"<p class='button attack center' onclick='choice(3)'>Actions</p>"
 	]
-	document.getElementById('menu').innerHTML = mainButtons[0]
-	for(rz = 1; rz < mainButtons.length; rz++){
-		var t = document.getElementById('menu').innerHTML =
-			document.getElementById('menu').innerHTML
-			+ mainButtons[rz]
-	}
-	document.getElementById('rightButton').style.display = "none"
-	document.getElementById('leftButton').style.display = "none"
+	loadButtons(mainButtons, "lefty")
 }
 
 function AI(state, which){
@@ -201,7 +194,7 @@ function choice(pick){
 		"<p class='button attack center' onclick='actions(3)'>Counter</p>"
 		]
 		document.getElementById('output').innerHTML = "You clicked the actions button"
-		document.getElementById('menu').innerHTML = actionButtons
+		loadButtons(actionButtons, "righty")
 	}
 	
 }

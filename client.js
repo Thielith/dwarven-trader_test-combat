@@ -5,7 +5,7 @@ var advantage = 0
 var x = 0
 var y = 6
 var damage = 1, adCost = 0
-var statusGive, statusGet, statusClear, statuses = []
+var statusGive, statusGet, statusClear, statuses = [], statusNames = []
 var attackButtons = [
 	"<p class='button attack center' onclick='loadAttackMenu()'>Back</p>",
 	"<p class='button attack center' onclick='fightChoose(1, 0, -1, -1, -1)'>Punch</p>", 
@@ -15,7 +15,7 @@ var attackChoiceButtons = [
 ]
 var currentList = attackButtons
 var attackList;
-
+//Things are VERY much broken. Enemys attack too many times, went from 3 advantage to -97. Loads enemies in twice for display. Status lsit has duplicates, maybe because statusID is = undefined
 socket.emit('getPlayerData', you.playerID);
 socket.on('getPlayerData', function(data){
 	you.STR = data[0].strength
@@ -76,6 +76,10 @@ socket.on('getPlayerStatus', function(data){
 })
 socket.on('getStatuses', function(data){
 	statuses.push(data)
+	socket.emit('getStatusNames')
+})
+socket.on('getStatusNames', function(data){
+	statusNames.push(data)
 	updateDisplay("start", 9999)
 })
 
@@ -91,12 +95,31 @@ function updateDisplay(start, totalHP){
 	if(totalHP > 0 && you.CuHP > 0){
 		loadAttackMenu()
 		document.getElementById('player').innerHTML = you.CuHP + " / " + you.MxHP
+		
 		if(start != undefined){
 			for(r = 0; r < them.length; r++){
 				ra = r + 1
 				var t = document.getElementById('enemy').innerHTML =
 					document.getElementById('enemy').innerHTML
 					+ "<p id='enemy" + r + "'>" + them[r].name + ": " + them[r].CuHP + " / " + them[r].MxHP + "</p>";
+				
+				var e = document.getElementById('enemyStatus').innerHTML =
+					document.getElementById('enemyStatus').innerHTML
+					+ "<p id='enemyStatus" + r + "'>" + statusNames[statuses[r].statusID].statusName + "</p>";
+			}
+			for(st = 0; st < statuses.length; st++){
+				if(statuses[st].unitID == 0){
+					var p = document.getElementById('playerStatus').innerHTML =
+						document.getElementById('playerStatus').innerHTML
+						+ "<p id='playerStatus" + st + "'>" + statusNames[statuses[st].statusID].statusName + "</p>";
+				}
+				for(ste = 0; ste < them.length; ste++){
+					if(statuses[st].unitID == them[ste].playerID){
+						var p = document.getElementById('enemyStatus').innerHTML =
+							document.getElementById('enemyStatus').innerHTML
+							+ "<p id='enemyStatus" + ste + "'>" + statusNames[statuses[st].statusID].statusName + "</p>";
+					}
+				}
 			}
 		}
 		else{
@@ -275,7 +298,7 @@ function choice(pick){
 		"<p class='button attack center' onclick='actions(3)'>Counter</p>"
 		]
 		document.getElementById('output').innerHTML = "You clicked the actions button"
-		document.getElementById('menu').innerHTML = actionButtons
+		loadButtons(actionButtons, "righty")
 	}
 	
 }

@@ -9,7 +9,7 @@
     border-radius: 5px;
 }
 .button.attack{
-	margin-left: 100px;
+	margin: 10px 28px;
 	padding: 50px 75px;
 	width: 250px
 }
@@ -30,12 +30,12 @@
 	float: left;
 }
 .container.collumS {
-	width: 10%;
+	width: 18%;
 	padding: 5px;
 }
 .container.collumM {
-	width: 80%;
-	padding:5px
+	width: 64%;
+	padding: 5px
 }
 .row:after {
     content: "";

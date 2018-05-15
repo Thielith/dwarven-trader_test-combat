@@ -77,7 +77,7 @@ def updateUnitDB(connection, id, strength, aglility, currentHP, maxHP, encounter
 	values = [id, strength, aglility, currentHP, maxHP, encounterID,level,name,advantage]
 	c = updateUnitData(connection, "units" , names, values, id)
 
-def updateStatusData(connection, tableName, collummNames, values): #gotta figure out how to remove some statuses and add more, could remove statuses with the unit IDs and add all of the ones from client
+def updateStatusData(connection, tableName, collummNames, values):
 	insertString = "("
 	valueString = "("
 	i = 0

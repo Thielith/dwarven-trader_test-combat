@@ -96,7 +96,15 @@ io.sockets.on('connection', function (socket) {
 			);
 		})
 	})
-	
+	socket.on('getStatusNames', function(){
+		var sql = "SELECT * FROM status_e;"
+		con.query(sql, function(err, result){
+			if (err) throw err;
+			socket.emit(
+				'getStatusNames', result
+			);
+		})
+	})
 	
 	socket.on('updateDB', function (info){
 		var sendLine = ""
