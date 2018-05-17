@@ -58,7 +58,7 @@ socket.on('getAttacks', function(data){
 
 })
 socket.on('getPlayerStatus', function(data){
-	if(data.length != 0){
+	if(data.length != undefined){
 		statuses.push(data)
 		console.log("getPlayerStatuses")
 		console.log(data)
@@ -82,14 +82,14 @@ socket.on('getPlayerStatus', function(data){
 	socket.emit('getStatusNames')
 })
 socket.on('getStatuses', function(data){
-	if(data.length != 0){
+	if(data.length != undefined){
 		statuses.push(data)
 		console.log("getStatuses")
 		console.log(data)	
 	}
 })
 socket.on('getStatusNames', function(data){
-	if(data.length != 0){
+	if(data.length != undefined){
 		statusNames.push(data)
 		console.log("getStatusNames")
 		console.log(data)
