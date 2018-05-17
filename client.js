@@ -27,6 +27,7 @@ socket.on('getPlayerData', function(data){
 	you.lvl = data[0].level
 	you.name = data[0].name
 	you.advantage = data[0].advantage
+	advantage = you.advantage
 	var send = [you.encounter, you.playerID]
 	socket.emit('getInCombat', send);
 })
@@ -102,6 +103,7 @@ function updateDatabase(who){
 	socket.emit('updateDB', who)
 	statuses.unshift(who.playerID)
 	socket.emit('updateStatus', statuses)
+	console.log(statuses)
 	statuses.shift()
 	
 }
@@ -117,34 +119,36 @@ function updateDisplay(start, totalHP){
 					document.getElementById('enemy').innerHTML
 					+ "<p id='enemy" + r + "'>" + them[r].name + ": " + them[r].CuHP + " / " + them[r].MxHP + "</p>";
 			}
-			if(statuses.length != 0){
-				for(st = 0; st < statuses.length; st++){
-					console.log(st)
-					if(statuses[st].unitID == 0){
-						console.log("statuses.unitID = 0")
-						document.getElementById('playerStatus').innerHTML =
-							document.getElementById('playerStatus').innerHTML
-							+ "<p id='playerStatus" + st + "'>" + statusNames[statuses[st].statusID].statusName + "</p>";
-					}
-					for(ste = 0; ste < them.length; ste++){
-						console.log("ste")
-						if(statuses[st].unitID == them[ste].playerID){
-							console.log("statuses.unitID = them.playerID")
-							document.getElementById('enemyStatus').innerHTML =
-								document.getElementById('enemyStatus').innerHTML
-								+ "<p id='enemyStatus" + ste + "'>" + statusNames[statuses[st].statusID].statusName + "</p>";
-						}
-					}
-				}
-			}
 		}
 		else{
 			for(r = 0; r < them.length; r++){
 				document.getElementById('enemy' + r).innerHTML = them[r].name + ": " + them[r].CuHP + " / " + them[r].MxHP
 			}
 		}
+		document.getElementById('playerStatus').innerHTML = "null"
+		document.getElementById('enemyStatus').innerHTML = "null"
+		if(statuses.length != 0){
+			for(st = 0; st < statuses.length; st++){
+				console.log(st)
+				if(statuses[st].unitID == you.playerID){
+					console.log("statuses.unitID = " + you.playerID)
+					document.getElementById('playerStatus').innerHTML =
+						document.getElementById('playerStatus').innerHTML
+						+ "<p id='playerStatus" + st + "'>" + statusNames[statuses[st].statusID].statusName + "</p>";
+				}
+				for(ste = 0; ste < them.length; ste++){
+					console.log("ste")
+					if(statuses[st].unitID == them[ste].playerID){
+						console.log("statuses.unitID = them.playerID")
+						document.getElementById('enemyStatus').innerHTML =
+							document.getElementById('enemyStatus').innerHTML
+							+ "<p id='enemyStatus" + ste + "'>" + statusNames[statuses[st].statusID].statusName + "</p>";
+					}
+				}
+			}
+		}
 		
-		document.getElementById('advantage').innerHTML = advantage
+		document.getElementById('advantage').innerHTML = you.advantage
 	}
 	else if(you.CuHP <= 0){
 		document.getElementById('menu').innerHTML = "<p class='stayCenter'>You Lose!</p>"

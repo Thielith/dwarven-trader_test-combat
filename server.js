@@ -124,11 +124,14 @@ io.sockets.on('connection', function (socket) {
 		var e = 'python database.py deleteStatusByUnitID ' + info[0]
 		console.log(e)
 		exec(e);
+		var idp = info[0]
 		info.shift();
 		for(s = 0; s < info.length; s++){
-			var e = "python database.py updateStatus " + info[s].unitID + " " + info[s].statusID + " " + info[s].magnitude
-			console.log(e)
-			exec(e);
+			if(idp == info[s].unitID){
+				var e = "python database.py updateStatus " + info[s].unitID + " " + info[s].statusID + " " + info[s].magnitude
+				console.log(e)
+				exec(e);
+			}
 		}
 	})
 	
