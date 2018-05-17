@@ -57,9 +57,11 @@ socket.on('getAttacks', function(data){
 
 })
 socket.on('getPlayerStatus', function(data){
-	statuses.push(data)
-	console.log("getPlayerStatuses")
-	console.log(data)
+	if(data.length != 0){
+		statuses.push(data)
+		console.log("getPlayerStatuses")
+		console.log(data)
+	}
 	
 	var m = 0, loopa;
 	function loop(){
@@ -79,14 +81,18 @@ socket.on('getPlayerStatus', function(data){
 	socket.emit('getStatusNames')
 })
 socket.on('getStatuses', function(data){
-	statuses.push(data)
-	console.log("getStatuses")
-	console.log(data)
+	if(data.length != 0){
+		statuses.push(data)
+		console.log("getStatuses")
+		console.log(data)	
+	}
 })
 socket.on('getStatusNames', function(data){
-	statusNames.push(data)
-	console.log("getStatusNames")
-	console.log(data)
+	if(data.length != 0){
+		statusNames.push(data)
+		console.log("getStatusNames")
+		console.log(data)
+	}
 	setTimeout(function(){
 		updateDisplay("start", 9999)
 	}, 250);

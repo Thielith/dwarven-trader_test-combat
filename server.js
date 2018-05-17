@@ -82,6 +82,8 @@ io.sockets.on('connection', function (socket) {
 		var sql = "SELECT * FROM statuses WHERE unitID = " + id + ";"
 		con.query(sql, function(err, result){
 			if (err) throw err;
+			console.log("getPlayerStatuses")
+			console.log(result)
 			socket.emit(
 				'getPlayerStatus', result
 			);
@@ -91,6 +93,8 @@ io.sockets.on('connection', function (socket) {
 		var sql = "SELECT * FROM statuses WHERE unitID = " + id + ";"
 		con.query(sql, function(err, result){
 			if (err) throw err;
+			console.log("getStatuses")
+			console.log(result)
 			socket.emit(
 				'getStatuses', result
 			);
@@ -100,6 +104,8 @@ io.sockets.on('connection', function (socket) {
 		var sql = "SELECT * FROM status_e;"
 		con.query(sql, function(err, result){
 			if (err) throw err;
+			console.log("getStatusNames")
+			console.log(result)
 			socket.emit(
 				'getStatusNames', result
 			);
