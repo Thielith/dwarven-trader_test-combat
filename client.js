@@ -16,6 +16,7 @@ var attackChoiceButtons = [
 var currentList = attackButtons
 var attackList;
 //Things are VERY much broken. Enemys attack too many times, went from 3 advantage to -97. Loads enemies in twice for display. Status lsit has duplicates, maybe because statusID is = undefined
+//Enemys only attack too amny times when kicking. Loading enemys twice in display fixed. updateStatus python script is always undefined and theres alot of them.
 socket.emit('getPlayerData', you.playerID);
 socket.on('getPlayerData', function(data){
 	you.STR = data[0].strength
@@ -86,7 +87,9 @@ socket.on('getStatusNames', function(data){
 	statusNames.push(data)
 	console.log("getStatusNames")
 	console.log(data)
-	updateDisplay("start", 9999)
+	setTimeout(function(){
+		updateDisplay("start", 9999)
+	}, 250);
 })
 
 function updateDatabase(who){
@@ -104,26 +107,27 @@ function updateDisplay(start, totalHP){
 		
 		if(start != undefined){
 			for(r = 0; r < them.length; r++){
-				ra = r + 1
 				var t = document.getElementById('enemy').innerHTML =
 					document.getElementById('enemy').innerHTML
 					+ "<p id='enemy" + r + "'>" + them[r].name + ": " + them[r].CuHP + " / " + them[r].MxHP + "</p>";
 			}
-			for(st = 0; st < statuses.length; st++){
-				console.log(st)
-				if(statuses[st].unitID == 0){
-					console.log("statuses.unitID = 0")
-					document.getElementById('playerStatus').innerHTML =
-						document.getElementById('playerStatus').innerHTML
-						+ "<p id='playerStatus" + st + "'>" + statusNames[statuses[st].statusID].statusName + "</p>";
-				}
-				for(ste = 0; ste < them.length; ste++){
-					console.log("ste")
-					if(statuses[st].unitID == them[ste].playerID){
-						console.log("statuses.unitID = them.playerID")
-						document.getElementById('enemyStatus').innerHTML =
-							document.getElementById('enemyStatus').innerHTML
-							+ "<p id='enemyStatus" + ste + "'>" + statusNames[statuses[st].statusID].statusName + "</p>";
+			if(statuses.length != 0){
+				for(st = 0; st < statuses.length; st++){
+					console.log(st)
+					if(statuses[st].unitID == 0){
+						console.log("statuses.unitID = 0")
+						document.getElementById('playerStatus').innerHTML =
+							document.getElementById('playerStatus').innerHTML
+							+ "<p id='playerStatus" + st + "'>" + statusNames[statuses[st].statusID].statusName + "</p>";
+					}
+					for(ste = 0; ste < them.length; ste++){
+						console.log("ste")
+						if(statuses[st].unitID == them[ste].playerID){
+							console.log("statuses.unitID = them.playerID")
+							document.getElementById('enemyStatus').innerHTML =
+								document.getElementById('enemyStatus').innerHTML
+								+ "<p id='enemyStatus" + ste + "'>" + statusNames[statuses[st].statusID].statusName + "</p>";
+						}
 					}
 				}
 			}

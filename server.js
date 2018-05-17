@@ -120,7 +120,7 @@ io.sockets.on('connection', function (socket) {
 		exec(e);
 		info.shift();
 		for(s = 0; s < info.length; s++){
-			var e = "python database.py updateStatus " + info[0].unitID + " " + info[0].statusID + " " + info[0].magnitude
+			var e = "python database.py updateStatus " + info[s].unitID + " " + info[s].statusID + " " + info[s].magnitude
 			console.log(e)
 			exec(e);
 		}
