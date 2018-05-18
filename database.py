@@ -17,9 +17,37 @@ def getFromDatabaseSumOfFieldInTableByGroupWhereXisY(database,field,table,group,
 	for v in values:
 		ret.append(v)
 	return ret
+
+
+def getFromDatabaseSumOfFieldInTableWhereListAisListB(database,field,table,a,b):
+        connection = database.cursor()
+	whereClause = ""
+	counter = 0
+	for i in a:
+		
+		whereClause += i + " = " +  str(b[counter])
+		if i == a[a.__len__()-1]:
+			counter += 1
+		else:
+			whereClause += " and "
+	if a.__len__() == b.__len__():
+        	
+		query = "select sum(" +  field + ")  from " + table + " where " +  whereClause
+	        print(query)
+	        connection.execute(query)
+	        values = connection.fetchall()
+	        ret = []
+	        for v in values:
+	                ret.append(v)
+        	return ret
+	else:
+		print("listA length does not equal listB length")
+
+
 def deleteFromTableWhereID(database,table,id, idName = "id"):
         connection = database.cursor()
-	query = "delete from " + table + " where " + idName + " == " + id + ";"
+	query = "delete from " + table + " where " + idName + " = " + str(id) + ";"
+	print(query)
         connection.execute(query)
 
 def getSumOfItemsForID(database,item,id):

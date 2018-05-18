@@ -75,7 +75,7 @@ class Transaction:
 			sqlCommand += " WHERE ownerID = "  + str(self.unit_idB) + " and itemID = " + str(item_id)
 
 		#remove transaction from transactions
-		
+		deleteFromTableWhereID(database,"transactions",self.id)
 		#add transaction to historical transactions
 def updateItemsFromTransactions(database):
 	#read all transactions
@@ -106,4 +106,4 @@ def createTestTransaction(database):
 	
 #createTestTransaction(db)
 #for i in range(10):
-updateItemsFromTransactions(db)
+#updateItemsFromTransactions(db)

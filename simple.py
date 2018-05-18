@@ -53,9 +53,15 @@ def getTransactionDetails():
 		for v in x:
 			print(v[0])
 
-def calculateIndividualValue(unit_id,item_id):
-	sumOfItem = getFromDatabaseSumOfFieldInTableByGroupWhereXisY(d , "quantity","items","itemType","id",id)
-	
+def calculateIndividualValue(database,ownerID,itemID):
+	listA = ["ownerID","itemID"]
+	listB = [ownerID,itemID]
+
+	x = getFromDatabaseSumOfFieldInTableWhereListAisListB(database,"quantity","items",listA,listB)
+	print(x)
+	#sumOfItem = getFromDatabaseSumOfFieldInTableByGroupWhereXisY(d , "quantity","items","itemType","id",id)
+	pass
+	#print("sum of item  = " + str(sumOfItem))
 	#is this something I want purely for luxury?
 	#is this a staple that I need?
 	#is this something I believe is liquid enough to trade?
@@ -68,3 +74,5 @@ def calculatePrices():
 
 #create_recipes()
 #create_tools()
+
+calculateIndividualValue(db,0,4)
