@@ -377,7 +377,7 @@ function fight(choice){
 		console.log("get status " + statusGet)
 		statuses.push({unitID: you.playerID, statusID: statusGet, magnitude: 1})
 	}
-	if(statusGive != -1 && them[rz].CuHP > 0 && statusGive != undefined){
+	if(statusGive != -1 && them[choice].CuHP > 0 && statusGive != undefined){
 		console.log("gave status " + statusGive)
 		statuses.push({unitID: them[choice].playerID, statusID: statusGive, magnitude: 1})
 	}
