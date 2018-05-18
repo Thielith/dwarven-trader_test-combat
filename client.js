@@ -357,6 +357,7 @@ function fightChoose(k, ad, give, get, clear){
 	currentList = attackChoiceButtons
 	damage = k, adCost = ad
 	statusGive = give, statusGet = get, statusClear = clear
+	console.log(give, get, clear)
 	loadButtons(attackChoiceButtons, "rights")
 }
 
@@ -364,7 +365,7 @@ function fight(choice){
 	var totalHP = 0
 	you.STR += damage
 	attack(you, them[choice])
-	if(statusClear != -1){
+	if(statusClear != -1 && statusClear != undefined){
 		console.log("clear status " + statusClear)
 		for(s = 0; s < statuses.length; s++){
 			if(statuses[s].unitID == you.playerID && statusClear == statuses[s].statusID){
@@ -372,7 +373,7 @@ function fight(choice){
 			}
 		}
 	}
-	if(statusGet != -1){
+	if(statusGet != -1 && statusGet != undefined){
 		console.log("get status " + statusGet)
 		statuses.push({unitID: you.playerID, statusID: statusGet, magnitude: 1})
 	}
@@ -385,7 +386,7 @@ function fight(choice){
 				them[rz].CuHP = 0
 				attackChoiceButtons[rz + 1] = ""
 			}
-			if(statusGive != -1 && them[rz].CuHP > 0){
+			if(statusGive != -1 && them[rz].CuHP > 0 && statusGive != undefined){
 				console.log("gave status " + statusGive)
 				statuses.push({unitID: them[rz].playerID, statusID: statusGive, magnitude: 1})
 			}
