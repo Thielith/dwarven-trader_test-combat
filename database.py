@@ -112,7 +112,7 @@ def updateUnitDB(connection, id, strength, aglility, currentHP, maxHP, encounter
 	values = [id, strength, aglility, currentHP, maxHP, encounterID,level,name,advantage]
 	c = updateUnitData(connection, "units" , names, values, id)
 
-def updateStatusData(connection, tableName, collummNames, values):
+def updateStatusData(connection, tableName, names, values):
 	insertString = "("
 	valueString = "("
 	i = 0
