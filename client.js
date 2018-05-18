@@ -418,7 +418,7 @@ function resolve(totalHP){
 	for(i = 0; i < statuses.length; i++){
 		for(j = 0; j < statuses.length; j++){
 			if(i != j){
-				if(statuses[i].a == statuses[j].a){
+				if(statuses[i].unitID == statuses[j].unitID && statuses[i].statusID == statuses[j].statusID){
 					statuses.splice(j, 1)
 				} 
 			}
