@@ -98,10 +98,7 @@ def updateStatusData(connection, tableName, names, values):
 	valueString += ")"
 	sqlCommand = "INSERT INTO " + tableName + " " + insertString + " VALUES " + valueString + ";"
 	print(sqlCommand)
-	e = connection.execute(sqlCommand)
-	print(e)
-	print("commit insert")
-	connection.commit()
+	connection.execute(sqlCommand)
 def updateStatusDB(connection, unitID, statusID, magnitude):
 	names = ["unitID", "statusID", "magnitude"]
 	values = [unitID, statusID, magnitude]
