@@ -58,6 +58,7 @@ socket.on('getAttacks', function(data){
 
 })
 socket.on('getPlayerStatus', function(data){
+	console.log(data.length)
 	if(data.length != undefined){
 		statuses.push(data)
 		console.log("getPlayerStatuses")
@@ -130,6 +131,8 @@ function updateDisplay(start, totalHP){
 		if(statuses.length != 0){
 			for(st = 0; st < statuses.length; st++){
 				console.log(st)
+				console.log("statuses.statusID")
+				console.log(statuses[st].statusID)
 				if(statuses[st].unitID == you.playerID){
 					console.log("statuses.unitID = " + you.playerID)
 					document.getElementById('playerStatus').innerHTML =
