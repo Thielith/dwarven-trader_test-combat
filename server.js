@@ -116,19 +116,19 @@ io.sockets.on('connection', function (socket) {
 		var sendLine = ""
 		sendLine += info.playerID + " " + info.STR + " " + info.AGI + " " + info.CuHP + " " + info.MxHP + " " + info.encounter + " " + info.lvl + " '" + info.name + "' " + info.advantage
 		
-		var e = "python database.py 'updateUnits' " + sendLine
+		var e = "python combat.py 'updateUnits' " + sendLine
 		console.log(e)
 		exec(e);
 	});
 	socket.on('updateStatus', function(info){
-		var e = 'python database.py deleteStatusByUnitID ' + info[0]
+		var e = 'python combat.py deleteStatusByUnitID ' + info[0]
 		console.log(e)
 		exec(e);
 		var idp = info[0]
 		info.shift();
 		for(s = 0; s < info.length; s++){
 			if(idp == info[s].unitID){
-				var e = "python database.py updateStatus " + info[s].unitID + " " + info[s].statusID + " " + info[s].magnitude
+				var e = "python combat.py updateStatus " + info[s].unitID + " " + info[s].statusID + " " + info[s].magnitude
 				console.log(e)
 				exec(e);
 			}
