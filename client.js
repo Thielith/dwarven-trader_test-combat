@@ -148,7 +148,7 @@ function updateDisplay(start, totalHP){
 			}
 		}
 		
-		document.getElementById('advantage').innerHTML = you.advantage
+		document.getElementById('advantage').innerHTML = advantage
 	}
 	else if(you.CuHP <= 0){
 		document.getElementById('menu').innerHTML = "<p class='stayCenter'>You Lose!</p>"
@@ -363,6 +363,7 @@ function fight(choice){
 	you.STR += damage
 	attack(you, them[choice])
 	if(statusClear != -1){
+		console.log("clear status " + statusClear)
 		for(s = 0; s < statuses.length; s++){
 			if(statuses[s].unitID == you.playerID && statusClear == statuses[s].statusID){
 				statuses.splice(s, 1)
@@ -370,6 +371,7 @@ function fight(choice){
 		}
 	}
 	if(statusGet != -1){
+		console.log("get status " + statusGet)
 		statuses.push({unitID: you.playerID, statusID: statusGet, magnitude: 1})
 	}
 	
@@ -382,6 +384,7 @@ function fight(choice){
 				attackChoiceButtons[rz + 1] = ""
 			}
 			if(statusGive != -1 && them[rz].CuHP > 0){
+				console.log("gave status " + statusGive)
 				statuses.push({unitID: them[rz].playerID, statusID: statusGive, magnitude: 1})
 			}
 			AI("attack", rz)
@@ -395,6 +398,7 @@ function fight(choice){
 			attackChoiceButtons[rz + 1] = ""
 		}
 		if(statusGive != -1 && them[rz].CuHP > 0){
+				console.log("gave status " + statusGive)
 				statuses.push({unitID: them[rz].playerID, statusID: statusGive, magnitude: 1})
 		}
 		AI("attack", 0)
