@@ -357,7 +357,6 @@ function fightChoose(k, ad, give, get, clear){
 	currentList = attackChoiceButtons
 	damage = k, adCost = ad
 	statusGive = give, statusGet = get, statusClear = clear
-	console.log(give, get, clear)
 	loadButtons(attackChoiceButtons, "rights")
 }
 
@@ -427,7 +426,7 @@ function resolve(totalHP){
 	
 	attackButtons = [
 	"<p class='button attack center' onclick='loadAttackMenu()'>Back</p>",
-	"<p class='button attack center' onclick='fightChoose(1, 0)'>Punch</p>", 
+	"<p class='button attack center' onclick='fightChoose(1, 0, -1, -1, -1)'>Punch</p>", 
 	]
 	updateDisplay(undefined, totalHP)
 }
