@@ -27,8 +27,9 @@ def getFromDatabaseSumOfFieldInTableWhereListAisListB(database,field,table,a,b):
 		
 		whereClause += i + " = " +  str(b[counter])
 		if i == a[a.__len__()-1]:
-			counter += 1
+			pass
 		else:
+			counter += 1
 			whereClause += " and "
 	if a.__len__() == b.__len__():
         	
