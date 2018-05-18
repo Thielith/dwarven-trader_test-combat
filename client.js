@@ -287,8 +287,8 @@ function choice(pick){
 		for(a = 0; a < attackList.length; a++){
 			if(attackList[a].advantage <= advantage){
 				var newButton = "<p class='button attack center' onclick='fightChoose(" + 
-				attackList[a].damage + ", " + attackList[a].advantageCost + 
-				attackList[a].effectGive + attackList[a].effectGet + attackList[a].effectClear +
+				attackList[a].damage + ", " + attackList[a].advantageCost + ", " + 
+				attackList[a].effectGive + ", " + attackList[a].effectGet + ", " + attackList[a].effectClear +
 				")'>" + attackList[a].attackID + "</p>"
 				if(attackButtons.includes(newButton) == false){
 					attackButtons.push(newButton)
