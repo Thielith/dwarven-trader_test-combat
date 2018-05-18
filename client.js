@@ -17,6 +17,7 @@ var currentList = attackButtons
 var attackList;
 //Things are VERY much broken. Enemys attack too many times, went from 3 advantage to -97. Loads enemies in twice for display. Status lsit has duplicates, maybe because statusID is = undefined
 //Enemys only attack too amny times when kicking. Loading enemys twice in display fixed. updateStatus python script is always undefined and theres alot of them.
+//Enemys nerver attacked too many times, bug with advantage. 
 socket.emit('getPlayerData', you.playerID);
 socket.on('getPlayerData', function(data){
 	you.STR = data[0].strength
@@ -376,7 +377,10 @@ function fight(choice){
 		console.log("get status " + statusGet)
 		statuses.push({unitID: you.playerID, statusID: statusGet, magnitude: 1})
 	}
-	
+	if(statusGive != -1 && them[rz].CuHP > 0 && statusGive != undefined){
+		console.log("gave status " + statusGive)
+		statuses.push({unitID: them[choice].playerID, statusID: statusGive, magnitude: 1})
+	}
 	
 	if(them.length > 1){
 		for(rz = 0; rz < them.length; rz++){
@@ -385,10 +389,7 @@ function fight(choice){
 				them[rz].CuHP = 0
 				attackChoiceButtons[rz + 1] = ""
 			}
-			if(statusGive != -1 && them[rz].CuHP > 0 && statusGive != undefined){
-				console.log("gave status " + statusGive)
-				statuses.push({unitID: them[rz].playerID, statusID: statusGive, magnitude: 1})
-			}
+			
 			AI("attack", rz)
 			totalHP += them[rz].CuHP
 		}
@@ -398,10 +399,6 @@ function fight(choice){
 			them[0].STR = 0
 			them[0].CuHP = 0
 			attackChoiceButtons[rz + 1] = ""
-		}
-		if(statusGive != -1 && them[rz].CuHP > 0){
-				console.log("gave status " + statusGive)
-				statuses.push({unitID: them[rz].playerID, statusID: statusGive, magnitude: 1})
 		}
 		AI("attack", 0)
 		totalHP = them[0].CuHP
@@ -417,6 +414,18 @@ function resolve(totalHP){
 	advantage -= adCost
 	damage = 1
 	adCost = 0
+	
+	for(i = 0; i < statuses.length; i++){
+		for(j = 0; j < statuses.length; j++){
+			if(i != j){
+				if(statuses[i].a == statuses[j].a){
+					statuses.splice(j, 1)
+				} 
+			}
+		}
+	}
+	statuses.splice(statuses.length - 1, 1)
+	
 	you.advantage = advantage
 	updateDatabase(you)
 	for(u = 0; u < them.length; u++){
