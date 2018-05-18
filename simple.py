@@ -58,21 +58,38 @@ def calculateIndividualValue(database,ownerID,itemID):
 	listB = [ownerID,itemID]
 
 	x = getFromDatabaseSumOfFieldInTableWhereListAisListB(database,"quantity","items",listA,listB)
-	print(x)
-	#sumOfItem = getFromDatabaseSumOfFieldInTableByGroupWhereXisY(d , "quantity","items","itemType","id",id)
-	pass
-	#print("sum of item  = " + str(sumOfItem))
 	#is this something I want purely for luxury?
 	#is this a staple that I need?
 	#is this something I believe is liquid enough to trade?
+
 	#is this something that I use to make more valuable items?
 
 def calculatePrices():
     pass
+def createTestGuy():
+	names = ["Abe","Bob","Carl","Doug","Earl","Fred","Gary","Hal","IGOR","Jayce","Kayle","Larry","Mo","Ned","Onsrud","Peta","Quirk","Ryaun","Sel","Tau","Upsillon","Vindic","Wend","Xan","Yed","Zeal"]
+	name = random.choice(names) + " " +  random.choice(names)+"son"
+	finery = random.randint(1,10)
+	shop = random.randint(1,10)
+	martial = random.randint(1,10)
+	foodie = random.randint(1,10)
+	knowledge = random.randint(1,10)
+	strength = random.randint(1,10)
+	agility = random.randint(1,10)
+	currentHP = strength * 10 + random.randint(1,4)*10
+	maxHP = currentHP
+	encounterID = 0
+	level = 1
+	advantage = 0
+
+        insertIntoDatabase(d,"units",["name","finery","shop","martial","foodie","knowledge","strength","agility","currentHP","maxHP","encounterID","level","advantage"],[name,finery,shop,martial,foodie,knowledge,strength,agility,currentHP,maxHP,encounterID,level,advantage])
+
 #getTransactionDetails()
 #getSumOfItemsForID(d,1,1)
 
 #create_recipes()
 #create_tools()
 
-calculateIndividualValue(db,0,4)
+#calculateIndividualValue(db,5,4)
+for i in range(10):
+	createTestGuy()

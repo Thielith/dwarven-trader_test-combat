@@ -96,7 +96,7 @@ def updateItemsFromTransactions(database):
 def createTestTransaction(database):
         #connection = database.cursor()
 
-	for i in range(1):
+	for i in range(100):
 		seller = i
 		while seller == i:
 			seller = random.randint(1,10)
@@ -104,6 +104,7 @@ def createTestTransaction(database):
 		values = [i,seller,random.randint(1,10),random.randint(1,2),1,random.randint(1,10),random.randint(11,20)]
                 insertIntoDatabase(database,"transactions",fields,values)
 	
-#createTestTransaction(db)
+createTestTransaction(db)
+
 #for i in range(10):
-#updateItemsFromTransactions(db)
+updateItemsFromTransactions(db)
