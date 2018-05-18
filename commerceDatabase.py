@@ -1,7 +1,7 @@
 import MySQLdb
 import sys
 from database import *
-
+import random
 db = MySQLdb.connect(host="localhost",  # your host
               					user="root",  # username
                                                 passwd="p2950",  # password
@@ -10,7 +10,8 @@ cur = db.cursor()
 
 
 class Transaction:
-	def __init__(self,unit_idA, unit_idB,itemTypeA,quantityA,itemTypeB,quantityB):
+	def __init__(self,id,unit_idA, unit_idB,itemTypeA,quantityA,itemTypeB,quantityB):
+		self.id = id
 		self.unit_idA = unit_idA
 		self.unit_idB = unit_idB
 		self.itemTypeA = itemTypeA
@@ -21,7 +22,7 @@ class Transaction:
 		self.updateItems(database,self.unit_idA,self.unit_idB,self.quantityA,self.itemTypeA)
                 self.updateItems(database,self.unit_idB,self.unit_idA,self.quantityB,self.itemTypeB)
 
-	def updateItems(self,database, buyer, seller, quantity, item_id):
+	def updateItems(self, database, buyer, seller, quantity, item_id):
 		print(str(buyer))
 		print(str(seller))
 		
@@ -31,12 +32,26 @@ class Transaction:
 		connection.execute(query)
 		
 		values = connection.fetchall()
-		# add to quantityA to unit unitA
+		# add quantityA to unit unitA
 		if values.__len__() > 0: #did the unit already have an entry for this item?
-			oldValue = values[0]
-			sqlCommand = "UPDATE items  SET quantity ="  + str(oldValue + quantity) + " WHERE ownerID = "  + str(buyer) + " and itemType = " + str(item_id)
+			oldValue = values[0][1]
+			#print("old value next")
+			#print(oldValue)
+			#print(quantity)
+			newValue = int(oldValue) + int(quantity)
+			print(newValue)
+			sqlCommand = "UPDATE items  SET quantity ="  + str(newValue) + " WHERE ownerID = "  + str(buyer) + " and itemID = " + str(item_id)
+			connection.execute(sqlCommand)
+			database.commit()			
+			print("a")
 		else:
-                        sqlCommand = "UPDATE  items SET quantity =" + str(quantity) + " WHERE ownerID = "  + str(buyer) + " and itemType = " + str(item_id)
+			#insert
+	                fields = ["ownerID","quantity","qualityID","itemID"]
+			values = [buyer,quantity,1,item_id]
+	                insertIntoDatabase(database,"items",fields,values)
+     
+			print("b")
+		#print(sqlCommand)
 	       	if values.__len__()>1:
                         print("error in update items duplicate entries for unit id")
 
@@ -53,10 +68,14 @@ class Transaction:
 		if values.__len__() == 0:
 			print("sold item that was not owned")
 		else:
-			oldValue = values[0]
-			sqlCommand = "UPDATE  items  SET quantity ="+ str(oldValue - quantity) + " WHERE ownerID = "  + self.unit_idB + " and itemType = " + self.itemType
+			oldValue = values[0][1]
+			print("old:" + str(oldValue))
+			print("quantity" + str(quantity))
+			sqlCommand = "UPDATE  items  SET quantity ="+ str(oldValue - quantity) 
+			sqlCommand += " WHERE ownerID = "  + str(self.unit_idB) + " and itemID = " + str(item_id)
 
 		#remove transaction from transactions
+		
 		#add transaction to historical transactions
 def updateItemsFromTransactions(database):
 	#read all transactions
@@ -68,12 +87,23 @@ def updateItemsFromTransactions(database):
 	values = connection.fetchall()
 	for t in values:
 		print(t)
-		transactions.append(Transaction(t[1],t[2],t[3],t[4],t[6],t[7]))
+		transactions.append(Transaction(t[0],t[1],t[2],t[3],t[4],t[6],t[7]))
 	#update items to reflect change in total from transactions
 	for t in transactions:
 		t.update(database)
 	#cache transactions into a historicalTransactionsTable to be used by AI
 	#clear table transactions
+def createTestTransaction(database):
+        #connection = database.cursor()
 
+	for i in range(1):
+		seller = i
+		while seller == i:
+			seller = random.randint(1,10)
+		fields = ["buyerID","sellerID","itemType","quantity","location","itemTypeB","quantityB"]
+		values = [i,seller,random.randint(1,10),random.randint(1,2),1,random.randint(1,10),random.randint(11,20)]
+                insertIntoDatabase(database,"transactions",fields,values)
+	
+#createTestTransaction(db)
+#for i in range(10):
 updateItemsFromTransactions(db)
-

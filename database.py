@@ -17,6 +17,11 @@ def getFromDatabaseSumOfFieldInTableByGroupWhereXisY(database,field,table,group,
 	for v in values:
 		ret.append(v)
 	return ret
+def deleteFromTableWhereID(database,table,id, idName = "id"):
+        connection = database.cursor()
+	query = "delete from " + table + " where " + idName + " == " + id + ";"
+        connection.execute(query)
+
 def getSumOfItemsForID(database,item,id):
 	connection = database.cursor()
 	query = "select sum(quantity) from items where itemid = " + str(item) + " and ownerID = " + str(id) +";"
@@ -58,6 +63,7 @@ def updateDatabaseData(connection,tableName,collummNames, values, idName = "play
 	print(sqlCommand)
 	connection.execute(sqlCommand)
 
+	
 def updateUnitData(connection, tableName, collummNames, values, extra):
 	collummString = ""
 	i = 0
