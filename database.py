@@ -130,7 +130,7 @@ def updateStatusData(connection, tableName, names, values):
 	e = connection.execute(sqlCommand)
 	print(e)
 	print("commit insert")
-	database.commit()
+	connection.commit()
 def updateStatusDB(connection, unitID, statusID, magnitude):
 	names = ["unitID", "statusID", "magnitude"]
 	values = [unitID, statusID, magnitude]
