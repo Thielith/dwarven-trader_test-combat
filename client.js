@@ -15,10 +15,6 @@ var attackChoiceButtons = [
 ]
 var currentList = attackButtons
 var attackList;
-//Things are VERY much broken. Enemys attack too many times, went from 3 advantage to -97. Loads enemies in twice for display. Status lsit has duplicates, maybe because statusID is = undefined
-//Enemys only attack too amny times when kicking. Loading enemys twice in display fixed. updateStatus python script is always undefined and theres alot of them.
-//Enemys nerver attacked too many times, bug with advantage. Duplicates dont exist now
-//Player gets status but enemy doesn't. Check process of adding statuses.
 socket.emit('getPlayerData', you.playerID);
 socket.on('getPlayerData', function(data){
 	you.STR = data[0].strength
@@ -88,7 +84,9 @@ socket.on('getStatuses', function(data){
 })
 socket.on('getStatusNames', function(data){
 	if(data.length != 0){
-		statusNames.push(data)
+		for(d = 0; d < data.length; d++){
+			statusNames.push(data[d])
+		}
 	}
 	setTimeout(function(){
 		updateDisplay("start", 9999)
@@ -125,6 +123,7 @@ function updateDisplay(start, totalHP){
 			for(st = 0; st < statuses.length; st++){
 				if(statuses[st].unitID == you.playerID){
 					console.log(statuses[st].statusID)
+					console.log(statusNames)
 					console.log(statusNames[statuses[st].statusID])
 					document.getElementById('playerStatus').innerHTML =
 						document.getElementById('playerStatus').innerHTML
