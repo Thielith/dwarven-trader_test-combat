@@ -99,7 +99,6 @@ function updateDatabase(who){
 	socket.emit('updateDB', who)
 	statuses.unshift(who.playerID)
 	socket.emit('updateStatus', statuses)
-	console.log(statuses)
 	statuses.shift()
 	
 }
@@ -125,6 +124,8 @@ function updateDisplay(start, totalHP){
 		if(statuses.length != 0){
 			for(st = 0; st < statuses.length; st++){
 				if(statuses[st].unitID == you.playerID){
+					console.log(statuses[st].statusID)
+					console.log(statusNames[statuses[st].statusID])
 					document.getElementById('playerStatus').innerHTML =
 						document.getElementById('playerStatus').innerHTML
 						+ "<p id='playerStatus" + st + "'>" + statusNames[statuses[st].statusID].statusName + "</p>";
@@ -354,7 +355,6 @@ function fight(choice){
 	you.STR += damage
 	attack(you, them[choice])
 	if(statusClear != -1 && statusClear != undefined){
-		console.log("clear status " + statusClear)
 		for(s = 0; s < statuses.length; s++){
 			if(statuses[s].unitID == you.playerID && statusClear == statuses[s].statusID){
 				statuses.splice(s, 1)
@@ -362,13 +362,10 @@ function fight(choice){
 		}
 	}
 	if(statusGet != -1 && statusGet != undefined){
-		console.log("get status " + statusGet)
 		statuses.push({unitID: you.playerID, statusID: statusGet, magnitude: 1})
 	}
 	if(statusGive != -1 && them[choice].CuHP > 0 && statusGive != undefined){
-		console.log("gave status " + statusGive)
-		var a = statuses.push({unitID: them[choice].playerID, statusID: statusGive, magnitude: 1})
-		console.log(a)
+		statuses.push({unitID: them[choice].playerID, statusID: statusGive, magnitude: 1})
 	}
 	
 	if(them.length > 1){
@@ -415,7 +412,6 @@ function resolve(totalHP){
 	advantage -= adCost
 	damage = 1
 	adCost = 0
-	console.log(statuses)
 	
 	deleteExtrasFromStatuses()
 	deleteExtrasFromStatuses()

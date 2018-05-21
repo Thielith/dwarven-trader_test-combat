@@ -22,12 +22,10 @@ io.sockets.on('connection', function (socket) {
 	
 	socket.on('calvert', function () {
 		var e = 'python simple.py'
-		console.log(e)
 		exec(e);
 	});
 	
 	socket.on('getPlayerData', function(id){
-		console.log("player")
 		var sql = "SELECT * FROM units WHERE id = " + id + ";"
 		con.query(sql, function(err, result){
 			if (err) throw err;
@@ -37,7 +35,6 @@ io.sockets.on('connection', function (socket) {
 		})
 	})
 	socket.on('getAttacks', function(level){
-		console.log("attack")
 		var sql = "SELECT * FROM _attack_ WHERE level <= " + level + ";"
 		con.query(sql, function(err, result){
 			if (err) throw err;
@@ -62,7 +59,6 @@ io.sockets.on('connection', function (socket) {
 		})
 	})
 	socket.on('getInCombat', function(id){
-		console.log("combat")
 		var sql = "SELECT * FROM units WHERE encounterID = " + id[0] + ";"
 		con.query(sql, function(err, result){
 			if (err) throw err;
@@ -82,8 +78,6 @@ io.sockets.on('connection', function (socket) {
 		var sql = "SELECT * FROM statuses WHERE unitID = " + id + ";"
 		con.query(sql, function(err, result){
 			if (err) throw err;
-			console.log("getPlayerStatuses")
-			console.log(result)
 			socket.emit(
 				'getPlayerStatus', result
 			);
@@ -93,8 +87,6 @@ io.sockets.on('connection', function (socket) {
 		var sql = "SELECT * FROM statuses WHERE unitID = " + id + ";"
 		con.query(sql, function(err, result){
 			if (err) throw err;
-			console.log("getStatuses")
-			console.log(result)
 			socket.emit(
 				'getStatuses', result
 			);
@@ -104,8 +96,6 @@ io.sockets.on('connection', function (socket) {
 		var sql = "SELECT * FROM status_e;"
 		con.query(sql, function(err, result){
 			if (err) throw err;
-			console.log("getStatusNames")
-			console.log(result)
 			socket.emit(
 				'getStatusNames', result
 			);
@@ -117,19 +107,16 @@ io.sockets.on('connection', function (socket) {
 		sendLine += info.playerID + " " + info.STR + " " + info.AGI + " " + info.CuHP + " " + info.MxHP + " " + info.encounter + " " + info.lvl + " '" + info.name + "' " + info.advantage
 		
 		var e = "python combat.py 'updateUnits' " + sendLine
-		console.log(e)
 		exec(e);
 	});
 	socket.on('updateStatus', function(info){
 		var e = 'python combat.py deleteStatusByUnitID ' + info[0]
-		console.log(e)
 		exec(e);
 		var idp = info[0]
 		info.shift();
 		for(s = 0; s < info.length; s++){
 			if(idp == info[s].unitID){
 				var e = "python combat.py updateStatus " + info[s].unitID + " " + info[s].statusID + " " + info[s].magnitude
-				console.log(e)
 				exec(e);
 			}
 		}
