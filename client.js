@@ -17,7 +17,8 @@ var currentList = attackButtons
 var attackList;
 //Things are VERY much broken. Enemys attack too many times, went from 3 advantage to -97. Loads enemies in twice for display. Status lsit has duplicates, maybe because statusID is = undefined
 //Enemys only attack too amny times when kicking. Loading enemys twice in display fixed. updateStatus python script is always undefined and theres alot of them.
-//Enemys nerver attacked too many times, bug with advantage. 
+//Enemys nerver attacked too many times, bug with advantage. Duplicates dont exist now
+//Player gets status but enemy doesn't. Check process of adding statuses.
 socket.emit('getPlayerData', you.playerID);
 socket.on('getPlayerData', function(data){
 	you.STR = data[0].strength
@@ -61,8 +62,6 @@ socket.on('getAttacks', function(data){
 socket.on('getPlayerStatus', function(data){
 	if(data.length != 0){
 		statuses.push(data)
-		console.log("getPlayerStatuses")
-		console.log(data)
 	}
 	
 	var m = 0, loopa;
@@ -85,15 +84,11 @@ socket.on('getPlayerStatus', function(data){
 socket.on('getStatuses', function(data){
 	if(data.length != 0){
 		statuses.push(data)
-		console.log("getStatuses")
-		console.log(data)	
 	}
 })
 socket.on('getStatusNames', function(data){
 	if(data.length != 0){
 		statusNames.push(data)
-		console.log("getStatusNames")
-		console.log(data)
 	}
 	setTimeout(function(){
 		updateDisplay("start", 9999)
@@ -109,7 +104,6 @@ function updateDatabase(who){
 	
 }
 function updateDisplay(start, totalHP){
-	console.log(statuses)
 	if(totalHP > 0 && you.CuHP > 0){
 		loadAttackMenu()
 		document.getElementById('player').innerHTML = you.name + ": " + you.CuHP + " / " + you.MxHP
@@ -130,19 +124,13 @@ function updateDisplay(start, totalHP){
 		document.getElementById('enemyStatus').innerHTML = "null"
 		if(statuses.length != 0){
 			for(st = 0; st < statuses.length; st++){
-				console.log(st)
-				console.log("statuses.statusID")
-				console.log(statuses[st].statusID)
 				if(statuses[st].unitID == you.playerID){
-					console.log("statuses.unitID = " + you.playerID)
 					document.getElementById('playerStatus').innerHTML =
 						document.getElementById('playerStatus').innerHTML
 						+ "<p id='playerStatus" + st + "'>" + statusNames[statuses[st].statusID].statusName + "</p>";
 				}
 				for(ste = 0; ste < them.length; ste++){
-					console.log("ste")
 					if(statuses[st].unitID == them[ste].playerID){
-						console.log("statuses.unitID = them.playerID")
 						document.getElementById('enemyStatus').innerHTML =
 							document.getElementById('enemyStatus').innerHTML
 							+ "<p id='enemyStatus" + ste + "'>" + statusNames[statuses[st].statusID].statusName + "</p>";
@@ -379,7 +367,8 @@ function fight(choice){
 	}
 	if(statusGive != -1 && them[choice].CuHP > 0 && statusGive != undefined){
 		console.log("gave status " + statusGive)
-		statuses.push({unitID: them[choice].playerID, statusID: statusGive, magnitude: 1})
+		var a = statuses.push({unitID: them[choice].playerID, statusID: statusGive, magnitude: 1})
+		console.log(a)
 	}
 	
 	if(them.length > 1){
@@ -414,6 +403,7 @@ function resolve(totalHP){
 	advantage -= adCost
 	damage = 1
 	adCost = 0
+	console.log(statuses)
 	
 	for(i = 0; i < statuses.length; i++){
 		for(j = 0; j < statuses.length; j++){
