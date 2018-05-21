@@ -122,9 +122,6 @@ function updateDisplay(start, totalHP){
 		if(statuses.length != 0){
 			for(st = 0; st < statuses.length; st++){
 				if(statuses[st].unitID == you.playerID){
-					console.log(statuses[st].statusID)
-					console.log(statusNames)
-					console.log(statusNames[statuses[st].statusID])
 					document.getElementById('playerStatus').innerHTML =
 						document.getElementById('playerStatus').innerHTML
 						+ "<p id='playerStatus" + st + "'>" + statusNames[statuses[st].statusID].statusName + "</p>";
