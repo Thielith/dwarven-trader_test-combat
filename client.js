@@ -398,13 +398,7 @@ function attack(a, b){
 	b.CuHP -= a.STR
 }
 
-function resolve(totalHP){
-	you.STR -= damage
-	advantage -= adCost
-	damage = 1
-	adCost = 0
-	console.log(statuses)
-	
+function deleteExtrasFromStatuses(){
 	for(i = 0; i < statuses.length; i++){
 		for(j = 0; j < statuses.length; j++){
 			if(i != j){
@@ -414,7 +408,17 @@ function resolve(totalHP){
 			}
 		}
 	}
-	statuses.splice(statuses.length - 1, 1)
+}
+
+function resolve(totalHP){
+	you.STR -= damage
+	advantage -= adCost
+	damage = 1
+	adCost = 0
+	console.log(statuses)
+	
+	deleteExtrasFromStatuses()
+	deleteExtrasFromStatuses()
 	
 	you.advantage = advantage
 	updateDatabase(you)
