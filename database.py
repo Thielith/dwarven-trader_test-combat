@@ -7,6 +7,16 @@ db = MySQLdb.connect(host="localhost",  # your host
 						 db="test_dwarven")  # name of the database
 cur = db.cursor()
 
+def dbGet(database,query):
+	connection = database.cursor()
+        print(query)
+        connection.execute(query)
+        values = connection.fetchall()
+        ret = []
+        for v in values:
+                ret.append(v)
+        return ret
+
 def getFromDatabaseSumOfFieldInTableByGroupWhereXisY(database,field,table,group,x,y):
 	connection = database.cursor()
 	query = "select sum(" +  field + ")  from " + table +  " where " +str(x) +  " = " + str(y) + " group by " + group + ";"
@@ -137,8 +147,9 @@ def deleteStatusByUnitID(connection, tableName, unitID):
 	print(sqlCommand)
 	connection.execute(sqlCommand)
 
-def getDataFromTableByID(connection, table, idName, id):
+def getDataFromTableByID(database, table, idName, id):
 	#returns a list of all entries matching the id to idName
+        connection = database.cursor()
 	sqlCommand = "SELECT * FROM  " + table + " WHERE " + idName + " = '" +  str(id) + "';"
 	connection.execute(sqlCommand)
 	values = connection.fetchall();

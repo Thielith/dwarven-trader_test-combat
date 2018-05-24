@@ -95,16 +95,22 @@ def updateItemsFromTransactions(database):
 	#clear table transactions
 def createTestTransaction(database):
         #connection = database.cursor()
+	itemStart =  594
+	itemEnd =  641
 
-	for i in range(100):
+	for i in range(1000):
 		seller = i
 		while seller == i:
 			seller = random.randint(1,10)
 		fields = ["buyerID","sellerID","itemType","quantity","location","itemTypeB","quantityB"]
-		values = [i,seller,random.randint(1,10),random.randint(1,2),1,random.randint(1,10),random.randint(11,20)]
+		values = [i,seller,random.randint(itemStart,itemEnd),random.randint(1,2),1,random.randint(itemStart,itemEnd),random.randint(11,20)]
                 insertIntoDatabase(database,"transactions",fields,values)
-	
-createTestTransaction(db)
 
-#for i in range(10):
+def createTransaction(database,buyerID,sellerID,itemType,quantity,location,itemTypeB,quantityB):
+	fields = ["buyerID","sellerID","itemType","quantity","location","itemTypeB","quantityB"]
+        values = [buyerID,sellerID,itemType,quantity,location,itemTypeB,quantityB]
+        insertIntoDatabase(database,"transactions",fields,values)
+	
+
+createTestTransaction(db)
 updateItemsFromTransactions(db)
